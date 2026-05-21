@@ -1,0 +1,151 @@
+id,sku,nombre,categoria
+10,PRD-69976,Disco Duro Premium Modelo 875,3
+9,PRD-11343,Disco Duro Ultra Modelo 202,2
+20,PRD-26508,Laptop Basic Modelo 618,3
+30,PRD-73739,Cargador Premium Modelo 551,2
+11,PRD-61344,Cargador Pro Modelo 477,3
+12,PRD-20136,Cable Ultra Modelo 319,1
+14,PRD-69340,Teclado Ultra Modelo 855,1
+15,PRD-52629,Funda Advanced Modelo 890,1
+16,PRD-12727,Disco Duro Ultra Modelo 620,2
+17,PRD-49756,Tarjeta Madre Lite Modelo 253,1
+18,PRD-98097,Memoria RAM Ultra Modelo 589,2
+19,PRD-43170,Cable Advanced Modelo 370,3
+21,PRD-82594,Disco Duro Advanced Modelo 654,1
+22,PRD-69286,Laptop Plus Modelo 508,3
+23,PRD-61534,Funda Pro Modelo 161,1
+24,PRD-20635,Monitor Basic Modelo 638,2
+25,PRD-88007,Laptop Lite Modelo 369,2
+26,PRD-25353,Funda Basic Modelo 532,3
+28,PRD-23795,Memoria RAM Premium Modelo 175,1
+29,PRD-37157,Teclado Advanced Modelo 290,3
+31,PRD-97775,Teclado Advanced Modelo 718,1
+32,PRD-38148,Cargador Ultra Modelo 238,3
+33,PRD-88249,Laptop Basic Modelo 223,2
+34,PRD-93857,Mouse Advanced Modelo 327,2
+35,PRD-87954,Teclado Lite Modelo 638,3
+36,PRD-93559,Funda Ultra Modelo 929,3
+37,PRD-12387,Teclado Pro Modelo 779,1
+38,PRD-51255,Cable Basic Modelo 831,1
+39,PRD-94060,Laptop Basic Modelo 797,2
+41,PRD-48992,Monitor Lite Modelo 821,2
+42,PRD-29179,Tarjeta Madre Basic Modelo 760,3
+43,PRD-72408,Disco Duro Plus Modelo 702,2
+44,PRD-77697,Teclado Plus Modelo 606,1
+45,PRD-36644,Cargador Pro Modelo 516,3
+46,PRD-23064,Funda Premium Modelo 232,3
+47,PRD-84788,Cable Ultra Modelo 306,3
+48,PRD-66601,Tarjeta Madre Max Modelo 478,1
+49,PRD-51043,Memoria RAM Ultra Modelo 547,3
+50,PRD-44189,Disco Duro Premium Modelo 997,2
+51,PRD-16852,Funda Max Modelo 398,1
+53,PRD-44626,Funda Max Modelo 696,3
+54,PRD-94095,Cable Advanced Modelo 204,2
+55,PRD-26407,Monitor Basic Modelo 768,2
+56,PRD-52013,Teclado Pro Modelo 836,2
+57,PRD-70128,Funda Max Modelo 692,2
+58,PRD-30842,Cargador Pro Modelo 613,3
+3,RAZ-BW-01,Teclado Mecánico Razer,2
+60,PRD-94305,Tarjeta Madre Plus Modelo 230,2
+61,PRD-64601,Mouse Advanced Modelo 713,2
+62,PRD-24028,Tarjeta Madre Pro Modelo 985,2
+64,PRD-36487,Cable Plus Modelo 695,3
+65,PRD-61355,Funda Premium Modelo 995,1
+66,PRD-23804,Laptop Basic Modelo 141,2
+67,PRD-77644,Funda Pro Modelo 873,2
+68,PRD-99417,Disco Duro Pro Modelo 728,3
+69,PRD-16801,Monitor Basic Modelo 973,3
+70,PRD-35212,Mouse Max Modelo 552,2
+71,PRD-41684,Teclado Advanced Modelo 111,1
+72,PRD-12162,Tarjeta Madre Premium Modelo 651,3
+73,PRD-51327,Mouse Lite Modelo 602,1
+74,PRD-70883,Funda Premium Modelo 579,2
+75,PRD-36683,Memoria RAM Pro Modelo 268,2
+77,PRD-18441,Disco Duro Lite Modelo 192,2
+78,PRD-91674,Memoria RAM Premium Modelo 165,3
+79,PRD-93937,Cable Ultra Modelo 709,1
+80,PRD-28828,Mouse Pro Modelo 825,3
+81,PRD-24296,Mouse Max Modelo 756,2
+82,PRD-97506,Teclado Pro Modelo 293,1
+83,PRD-79822,Teclado Lite Modelo 530,2
+84,PRD-84460,Memoria RAM Pro Modelo 788,2
+85,PRD-89821,Tarjeta Madre Premium Modelo 108,3
+86,PRD-70327,Teclado Lite Modelo 126,1
+87,PRD-23503,Memoria RAM Plus Modelo 827,1
+88,PRD-87763,Funda Basic Modelo 350,3
+90,PRD-94331,Mouse Max Modelo 432,2
+91,PRD-68225,Funda Premium Modelo 262,3
+92,PRD-56780,Teclado Ultra Modelo 226,3
+93,PRD-21085,Cable Ultra Modelo 308,1
+94,PRD-48223,Tarjeta Madre Basic Modelo 584,3
+95,PRD-98890,Memoria RAM Basic Modelo 950,2
+96,PRD-83007,Cargador Lite Modelo 425,3
+97,PRD-80293,Disco Duro Max Modelo 383,2
+98,PRD-67381,Tarjeta Madre Lite Modelo 678,1
+99,PRD-23234,Monitor Lite Modelo 551,1
+100,PRD-32555,Disco Duro Ultra Modelo 669,1
+101,PRD-52275,Cargador Premium Modelo 689,2
+103,PRD-44611,Mouse Premium Modelo 985,2
+104,PRD-76430,Monitor Pro Modelo 695,1
+105,PRD-91987,Mouse Basic Modelo 592,2
+106,PRD-18095,Disco Duro Basic Modelo 352,1
+107,PRD-34961,Funda Basic Modelo 654,1
+108,PRD-35453,Memoria RAM Advanced Modelo 438,3
+109,PRD-32004,Cargador Pro Modelo 245,1
+110,PRD-76140,Cable Advanced Modelo 419,2
+111,PRD-14573,Laptop Plus Modelo 757,2
+112,PRD-80107,Laptop Max Modelo 657,3
+113,PRD-84442,Cable Ultra Modelo 248,3
+114,PRD-22137,Monitor Lite Modelo 418,2
+115,PRD-30881,Cable Plus Modelo 301,2
+13,PRD-70655,Memoria RAM Basic Modelo 482,2
+27,PRD-67639,Memoria RAM Pro Modelo 621,1
+40,PRD-78208,Cable Ultra Modelo 808,1
+52,PRD-61930,Monitor Lite Modelo 624,3
+59,PRD-33552,Mouse Ultra Modelo 991,1
+63,PRD-45146,Laptop Advanced Modelo 851,2
+76,PRD-22010,Memoria RAM Ultra Modelo 270,1
+89,PRD-68530,Cargador Advanced Modelo 732,2
+102,PRD-43293,Monitor Advanced Modelo 717,2
+116,PRD-98929,Tarjeta Madre Basic Modelo 298,3
+117,PRD-91187,Mouse Max Modelo 799,2
+118,PRD-62770,Memoria RAM Advanced Modelo 806,3
+119,PRD-79423,Funda Advanced Modelo 507,3
+120,PRD-70725,Cable Lite Modelo 123,3
+121,PRD-37048,Cargador Max Modelo 809,1
+122,PRD-45599,Memoria RAM Ultra Modelo 301,2
+123,PRD-38572,Tarjeta Madre Premium Modelo 384,2
+124,PRD-30271,Mouse Max Modelo 843,1
+125,PRD-72037,Memoria RAM Basic Modelo 955,3
+126,PRD-99744,Funda Premium Modelo 807,3
+127,PRD-22339,Monitor Ultra Modelo 582,3
+128,PRD-12497,Laptop Pro Modelo 172,3
+129,PRD-92553,Cargador Max Modelo 195,3
+130,PRD-70759,Cable Pro Modelo 552,1
+131,PRD-56154,Tarjeta Madre Basic Modelo 549,1
+132,PRD-31642,Disco Duro Ultra Modelo 227,3
+133,PRD-74600,Memoria RAM Pro Modelo 440,1
+134,PRD-12975,Mouse Plus Modelo 286,2
+135,PRD-39170,Cargador Pro Modelo 649,3
+136,PRD-38316,Cable Lite Modelo 121,3
+137,PRD-67413,Monitor Premium Modelo 218,2
+138,PRD-27090,Mouse Pro Modelo 775,2
+139,PRD-90960,Mouse Basic Modelo 471,3
+140,PRD-74447,Cargador Lite Modelo 253,3
+141,PRD-58974,Teclado Lite Modelo 203,3
+142,PRD-18073,Cable Pro Modelo 566,3
+143,PRD-16060,Teclado Ultra Modelo 742,3
+144,PRD-92514,Cargador Lite Modelo 203,3
+145,PRD-20972,Disco Duro Plus Modelo 585,1
+146,PRD-57765,Cable Ultra Modelo 631,3
+147,PRD-41489,Cargador Advanced Modelo 997,3
+148,PRD-29368,Disco Duro Max Modelo 352,3
+149,PRD-32859,Tarjeta Madre Lite Modelo 134,1
+150,PRD-39849,Mouse Pro Modelo 719,2
+151,PRD-64717,Laptop Lite Modelo 912,2
+152,PRD-74951,Laptop Plus Modelo 334,3
+153,PRD-89801,Monitor Max Modelo 360,2
+154,PRD-21267,Funda Premium Modelo 333,2
+155,12jskajd,Laptop Asus i7 rtx 5080,1
+1,DELL-XPS-15,Laptop Dell XPS 15,1
+2,LOG-MX-3,Mouse Logitech MX Master 3,2

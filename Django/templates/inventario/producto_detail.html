@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block page_title %}Detalle de Producto{% endblock %}
+
+{% block header_actions %}
+<a href="{% url 'producto_list' %}" class="btn btn-secondary">
+    <i class="fa-solid fa-arrow-left"></i> Volver a la lista
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 24px; max-width: 800px; margin: auto;">
+    <h2 style="margin-bottom: 16px;">{{ producto.nombre }} ({{ producto.sku }})</h2>
+    <dl class="grid" style="grid-template-columns: auto 1fr; gap: 8px 16px;">
+        <dt>Categoría:</dt><dd>{{ producto.categoria.nombre }}</dd>
+        <dt>Descripción:</dt><dd>{{ producto.descripcion }}</dd>
+        <dt>Precio Compra:</dt><dd>Q. {{ producto.precio_compra|floatformat:2|intcomma }}</dd>
+        <dt>Precio Venta:</dt><dd>Q. {{ producto.precio_venta|floatformat:2|intcomma }}</dd>
+        <dt>Stock:</dt><dd>{{ producto.stock|intcomma }}</dd>
+        <dt>Proveedor:</dt>{% if producto.proveedor_predeterminado %}<dd>{{ producto.proveedor_predeterminado.nombre }}</dd>{% else %}<dd>Sin proveedor</dd>{% endif %}
+    </dl>
+    <div style="margin-top: 24px;">
+        <a href="{% url 'producto_update' producto.pk %}" class="btn btn-primary" style="margin-right: 12px;">
+            <i class="fa-solid fa-pen-to-square"></i> Editar
+        </a>
+        <a href="{% url 'producto_delete' producto.pk %}" class="btn btn-danger">
+            <i class="fa-solid fa-trash"></i> Eliminar
+        </a>
+    </div>
+</div>
+{% endblock %}

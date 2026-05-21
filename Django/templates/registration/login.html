@@ -1,0 +1,92 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Iniciar Sesión - ChardonayStore</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <style>
+        .login-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            width: 100%;
+        }
+        .login-box {
+            width: 100%;
+            max-width: 400px;
+            padding: 40px;
+            text-align: center;
+        }
+        .login-brand {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            display: block;
+        }
+        .login-input {
+            width: 100%;
+            padding: 14px 16px;
+            background: rgba(0, 0, 0, 0.2);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            color: var(--text-primary);
+            font-size: 1rem;
+            margin-bottom: 20px;
+            transition: all 0.3s ease;
+        }
+        .login-input:focus {
+            outline: none;
+            border-color: var(--accent);
+            box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+        }
+        .login-btn {
+            width: 100%;
+            padding: 14px;
+            font-size: 1rem;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="login-container">
+    <div class="glass-panel login-box">
+        <div class="brand login-brand" style="justify-content: center;">
+            <i class="fa-solid fa-microchip"></i>
+            Chardonay<span>Store</span>
+        </div>
+        <p style="color: var(--text-secondary); margin-bottom: 32px;">Acceso al sistema ERP</p>
+
+        {% if form.errors %}
+        <div style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.3); color: var(--danger); padding: 12px; border-radius: 8px; margin-bottom: 24px; font-size: 0.9rem;">
+            Tu nombre de usuario o contraseña no son correctos. Por favor, inténtalo de nuevo.
+        </div>
+        {% endif %}
+
+        <form method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            
+            <div style="text-align: left;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 0.9rem;">Usuario</label>
+                <input type="text" name="username" class="login-input" required autofocus>
+            </div>
+
+            <div style="text-align: left;">
+                <label style="display: block; margin-bottom: 8px; color: var(--text-secondary); font-size: 0.9rem;">Contraseña</label>
+                <input type="password" name="password" class="login-input" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary login-btn">
+                <i class="fa-solid fa-right-to-bracket" style="margin-right: 8px;"></i> Iniciar Sesión
+            </button>
+            <input type="hidden" name="next" value="{{ next|default:'/' }}">
+        </form>
+    </div>
+</div>
+
+</body>
+</html>

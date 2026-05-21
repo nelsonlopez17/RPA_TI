@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Eliminar Proveedor{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 32px; max-width: 500px; margin: 0 auto; text-align: center;">
+    <div style="color: var(--danger); font-size: 3rem; margin-bottom: 16px;">
+        <i class="fa-solid fa-triangle-exclamation"></i>
+    </div>
+    
+    <h3 style="margin-bottom: 12px;">¿Estás seguro?</h3>
+    <p style="color: var(--text-secondary); margin-bottom: 32px;">
+        Estás a punto de eliminar al proveedor <strong>{{ object.nombre }}</strong>. Esta acción no se puede deshacer y eliminará las órdenes de compra asociadas.
+    </p>
+
+    <form method="post">
+        {% csrf_token %}
+        <div style="display: flex; gap: 16px; justify-content: center;">
+            <a href="{% url 'proveedor_list' %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-danger">Sí, eliminar</button>
+        </div>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,143 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block page_title %}{% if accion %}{{ accion }} Factura{% else %}Editar Factura{% endif %}{% endblock %}
+
+{% block content %}
+
+<!-- Mensajes de error/éxito -->
+{% if messages %}
+{% for message in messages %}
+<div style="background: rgba({% if message.tags == 'error' %}239,68,68{% else %}34,197,94{% endif %},0.15); border: 1px solid rgba({% if message.tags == 'error' %}239,68,68{% else %}34,197,94{% endif %},0.4); color: {% if message.tags == 'error' %}var(--danger){% else %}var(--success){% endif %}; padding: 14px 20px; border-radius: 10px; margin-bottom: 20px;">
+    <i class="fa-solid fa-{% if message.tags == 'error' %}circle-exclamation{% else %}circle-check{% endif %}" style="margin-right: 8px;"></i>{{ message }}
+</div>
+{% endfor %}
+{% endif %}
+
+<div class="glass-panel" style="padding: 32px; max-width: 800px;">
+    <form method="post" id="factura-form">
+        {% csrf_token %}
+
+        <!-- Datos de la Factura -->
+        <h4 style="margin-bottom: 20px; color: var(--accent);">
+            <i class="fa-solid fa-file-invoice-dollar" style="margin-right: 8px;"></i>Datos de la Factura
+        </h4>
+
+        {% if form %}
+        <div class="grid" style="grid-template-columns: 1fr 1fr; gap: 16px; margin-bottom: 24px;">
+            <div class="form-group">
+                <label class="form-label">Cliente</label>
+                {{ form.cliente }}
+                {% if form.cliente.errors %}<div style="color:var(--danger);font-size:0.8rem;">{{ form.cliente.errors }}</div>{% endif %}
+            </div>
+            <div class="form-group">
+                <label class="form-label">Número de Factura</label>
+                {{ form.numero_factura }}
+                {% if form.numero_factura.errors %}<div style="color:var(--danger);font-size:0.8rem;">{{ form.numero_factura.errors }}</div>{% endif %}
+            </div>
+        </div>
+        {% else %}
+        <!-- Edición simple -->
+        <div class="form-group"><label class="form-label">Cliente</label>{{ form.cliente }}</div>
+        <div class="form-group"><label class="form-label">Número de Factura</label>{{ form.numero_factura }}</div>
+        <div class="form-group"><label class="form-label">Total</label>{{ form.total }}</div>
+        {% endif %}
+
+        <!-- Líneas de Productos -->
+        {% if formset %}
+        <hr style="border-color: var(--border-color); margin: 24px 0;">
+        <h4 style="margin-bottom: 16px; color: var(--accent);">
+            <i class="fa-solid fa-boxes-stacked" style="margin-right: 8px;"></i>Productos
+        </h4>
+
+        {{ formset.management_form }}
+
+        <div id="detalles-container">
+            {% for detalle_form in formset %}
+            <div class="detalle-row" style="display: grid; grid-template-columns: 1fr auto auto; gap: 12px; align-items: end; margin-bottom: 16px; padding: 16px; background: rgba(0,0,0,0.15); border-radius: 10px; border: 1px solid var(--border-color);">
+                <div class="form-group" style="margin: 0;">
+                    <label class="form-label">Producto</label>
+                    {{ detalle_form.producto }}
+                </div>
+                <div class="form-group" style="margin: 0; width: 120px;">
+                    <label class="form-label">Cantidad</label>
+                    {{ detalle_form.cantidad }}
+                </div>
+                <div style="display: flex; flex-direction: column; gap: 4px;">
+                    <label class="form-label">Subtotal</label>
+                    <span class="subtotal-label" style="padding: 10px 16px; background: rgba(99,102,241,0.1); border-radius: 8px; font-weight: 600; color: var(--accent); min-width: 120px; text-align: right;">Q. 0.00</span>
+                    {% if detalle_form.DELETE %}
+                    <div style="display: none;">{{ detalle_form.DELETE }}</div>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Total general -->
+        <div style="display: flex; justify-content: flex-end; margin-top: 16px; padding: 16px; background: rgba(99,102,241,0.1); border-radius: 10px;">
+            <div style="text-align: right;">
+                <div style="color: var(--text-secondary); font-size: 0.85rem; margin-bottom: 4px;">TOTAL FACTURA</div>
+                <div id="total-general" style="font-size: 1.8rem; font-weight: 700; color: var(--accent);">Q. 0.00</div>
+            </div>
+        </div>
+        {% endif %}
+
+        <div style="margin-top: 32px; display: flex; gap: 16px; justify-content: flex-end;">
+            <a href="{% url 'factura_list' %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-save" style="margin-right: 8px;"></i>Guardar Factura
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    form input, form select, form textarea {
+        width: 100%; padding: 10px 14px;
+        background: rgba(0,0,0,0.2);
+        border: 1px solid var(--border-color);
+        border-radius: 8px; color: var(--text-primary);
+        font-size: 0.95rem; transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+    form input:focus, form select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(99,102,241,0.2); }
+    form option { background: #1e293b; color: var(--text-primary); }
+</style>
+
+<script>
+// Precios de productos desde Django
+const precios = {
+    {% for p in productos %}
+    "{{ p.id }}": { precio: {{ p.precio_venta }}, stock: {{ p.stock }}, nombre: "{{ p.nombre }}" },
+    {% endfor %}
+};
+
+function calcularTotales() {
+    let total = 0;
+    document.querySelectorAll('.detalle-row').forEach(row => {
+        const select = row.querySelector('select');
+        const cantidad = row.querySelector('input[type="number"]');
+        const subtotalLabel = row.querySelector('.subtotal-label');
+
+        if (!select || !cantidad || !subtotalLabel) return;
+
+        const prodId = select.value;
+        const cant = parseInt(cantidad.value) || 0;
+
+        if (prodId && precios[prodId] && cant > 0) {
+            const subtotal = precios[prodId].precio * cant;
+            subtotalLabel.textContent = 'Q. ' + subtotal.toLocaleString('es-GT', {minimumFractionDigits: 2});
+            total += subtotal;
+        } else {
+            subtotalLabel.textContent = 'Q. 0.00';
+        }
+    });
+
+    document.getElementById('total-general').textContent = 'Q. ' + total.toLocaleString('es-GT', {minimumFractionDigits: 2});
+}
+
+document.addEventListener('change', calcularTotales);
+document.addEventListener('input', calcularTotales);
+</script>
+{% endblock %}

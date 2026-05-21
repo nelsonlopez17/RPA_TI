@@ -1,0 +1,12 @@
+Administrador (Tiene acceso a todo)
+
+Usuario: admin
+Contraseña: admin123
+Vendedor (Verá solo Clientes y Facturas)
+
+Usuario: vendedor
+Contraseña: ventas123
+Bodeguero (Verá solo Inventario y Compras)
+
+Usuario: bodeguero
+Contraseña: bodega123

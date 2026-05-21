@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block page_title %}{% if object %}Editar Orden{% else %}Nueva Orden de Compra{% endif %}{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 32px; max-width: 600px;">
+    <form method="post">
+        {% csrf_token %}
+        
+        <div class="form-group">
+            <label class="form-label" for="{{ form.proveedor.id_for_label }}">Proveedor</label>
+            {{ form.proveedor }}
+            {% if form.proveedor.errors %}<div style="color: var(--danger); font-size: 0.8rem; margin-top: 4px;">{{ form.proveedor.errors }}</div>{% endif %}
+        </div>
+
+        <div class="form-group">
+            <label class="form-label" for="{{ form.producto.id_for_label }}">Producto</label>
+            {{ form.producto }}
+            {% if form.producto.errors %}<div style="color: var(--danger); font-size: 0.8rem; margin-top: 4px;">{{ form.producto.errors }}</div>{% endif %}
+        </div>
+
+        <div class="grid" style="grid-template-columns: 1fr 1fr;">
+            <div class="form-group">
+                <label class="form-label" for="{{ form.cantidad.id_for_label }}">Cantidad</label>
+                {{ form.cantidad }}
+                {% if form.cantidad.errors %}<div style="color: var(--danger); font-size: 0.8rem; margin-top: 4px;">{{ form.cantidad.errors }}</div>{% endif %}
+            </div>
+            
+            <div class="form-group">
+                <label class="form-label" for="{{ form.costo_total.id_for_label }}">Costo Total (Q)</label>
+                {{ form.costo_total }}
+                {% if form.costo_total.errors %}<div style="color: var(--danger); font-size: 0.8rem; margin-top: 4px;">{{ form.costo_total.errors }}</div>{% endif %}
+            </div>
+        </div>
+
+        <div style="margin-top: 32px; display: flex; gap: 16px; justify-content: flex-end;">
+            <a href="{% url 'ordencompra_list' %}" class="btn btn-secondary">Cancelar</a>
+            <button type="submit" class="btn btn-primary">
+                <i class="fa-solid fa-save" style="margin-right: 8px;"></i> Guardar Orden
+            </button>
+        </div>
+    </form>
+</div>
+
+<style>
+    form input, form select, form textarea {
+        width: 100%;
+        padding: 12px 16px;
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        color: var(--text-primary);
+        font-size: 1rem;
+        transition: all 0.3s ease;
+    }
+    form input:focus, form select:focus, form textarea:focus {
+        outline: none;
+        border-color: var(--accent);
+        box-shadow: 0 0 0 2px rgba(99, 102, 241, 0.2);
+    }
+    form option {
+        background: var(--bg-dark);
+        color: var(--text-primary);
+    }
+</style>
+{% endblock %}

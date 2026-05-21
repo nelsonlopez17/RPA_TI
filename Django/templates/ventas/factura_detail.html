@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load humanize %}
+
+{% block page_title %}Detalle de Factura #{{ factura.numero_factura }}{% endblock %}
+
+{% block header_actions %}
+<a href="{% url 'factura_list' %}" class="btn btn-secondary">
+    <i class="fa-solid fa-arrow-left"></i> Volver
+</a>
+<a href="{% url 'factura_update' factura.pk %}" class="btn btn-primary" style="margin-left: 12px;">
+    <i class="fa-solid fa-pen-to-square"></i> Editar
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="grid" style="grid-template-columns: 1fr 2fr; gap: 24px;">
+    
+    <!-- Información General -->
+    <div class="glass-panel" style="padding: 24px;">
+        <h4 style="color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+            <i class="fa-solid fa-circle-info" style="margin-right: 8px;"></i>Información General
+        </h4>
+        
+        <div style="margin-bottom: 16px;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 4px;">Cliente</div>
+            <div style="font-weight: 500;">{{ factura.cliente.nombre }}</div>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 4px;">NIT</div>
+            <div>{{ factura.cliente.nit }}</div>
+        </div>
+        
+        <div style="margin-bottom: 16px;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 4px;">Fecha de Venta</div>
+            <div>{{ factura.fecha_venta|date:"d/m/Y H:i:s" }}</div>
+        </div>
+        
+        <div style="margin-top: 32px; padding: 16px; background: rgba(99,102,241,0.1); border-radius: 10px; text-align: center;">
+            <div style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 4px;">TOTAL FACTURA</div>
+            <div style="font-size: 2rem; font-weight: 700; color: var(--accent);">
+                Q. {{ factura.total|floatformat:2|intcomma }}
+            </div>
+        </div>
+    </div>
+
+    <!-- Detalles de Productos -->
+    <div class="glass-panel" style="padding: 24px;">
+        <h4 style="color: var(--accent); margin-bottom: 20px; border-bottom: 1px solid var(--border-color); padding-bottom: 12px;">
+            <i class="fa-solid fa-boxes-stacked" style="margin-right: 8px;"></i>Productos Comprados
+        </h4>
+        
+        {% if detalles %}
+        <div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Producto</th>
+                        <th style="text-align: right;">Precio Unitario</th>
+                        <th style="text-align: center;">Cantidad</th>
+                        <th style="text-align: right;">Subtotal</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for detalle in detalles %}
+                    <tr>
+                        <td style="font-weight: 500;">{{ detalle.producto.nombre }}</td>
+                        <td style="text-align: right;">Q. {{ detalle.precio_unitario|floatformat:2|intcomma }}</td>
+                        <td style="text-align: center;">
+                            <span style="background: rgba(255,255,255,0.1); padding: 4px 12px; border-radius: 20px;">
+                                {{ detalle.cantidad }}
+                            </span>
+                        </td>
+                        <td style="text-align: right; font-weight: 600;">
+                            Q. {{ detalle.subtotal|floatformat:2|intcomma }}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+        {% else %}
+        <div style="text-align: center; padding: 30px; color: var(--text-secondary);">
+            <i class="fa-solid fa-box-open" style="font-size: 2.5rem; margin-bottom: 12px; opacity: 0.5;"></i>
+            <p>Esta factura no tiene productos registrados.</p>
+        </div>
+        {% endif %}
+    </div>
+
+</div>
+{% endblock %}

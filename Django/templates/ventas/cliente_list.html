@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+
+{% block page_title %}Clientes{% endblock %}
+
+{% block header_actions %}
+<a href="{% url 'cliente_create' %}" class="btn btn-primary">
+    <i class="fa-solid fa-plus"></i> Nuevo Cliente
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 24px;">
+    <form method="get" style="margin-bottom: 24px; display: flex; gap: 12px;">
+        <input type="text" name="q" value="{{ q }}" placeholder="Buscar cliente por nombre..."
+               style="flex: 1; padding: 10px 16px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 0.95rem;">
+        <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+        {% if q %}<a href="{% url 'cliente_list' %}" class="btn btn-secondary"><i class="fa-solid fa-xmark"></i> Limpiar</a>{% endif %}
+    </form>
+
+    {% if clientes %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>Nombre</th>
+                    <th>NIT</th>
+                    <th>Correo</th>
+                    <th>Teléfono</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for c in clientes %}
+                <tr>
+                    <td style="font-weight: 500;">{{ c.nombre }}</td>
+                    <td>{{ c.nit }}</td>
+                    <td>{{ c.correo }}</td>
+                    <td>{{ c.telefono }}</td>
+                    <td>
+                        <a href="{% url 'cliente_update' c.pk %}" style="color: var(--text-secondary); margin-right: 12px; transition: color 0.2s;"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{% url 'cliente_delete' c.pk %}" style="color: var(--danger); transition: color 0.2s;"><i class="fa-solid fa-trash"></i></a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if is_paginated %}
+    <div style="margin-top: 24px; display: flex; justify-content: center; gap: 8px;">
+        {% if page_obj.has_previous %}
+            <a href="?q={{ q }}&page={{ page_obj.previous_page_number }}" class="btn btn-secondary" style="padding: 8px 12px;"><i class="fa-solid fa-chevron-left"></i></a>
+        {% endif %}
+        <span style="display: flex; align-items: center; padding: 0 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-weight: 500;">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?q={{ q }}&page={{ page_obj.next_page_number }}" class="btn btn-secondary" style="padding: 8px 12px;"><i class="fa-solid fa-chevron-right"></i></a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+        <i class="fa-solid fa-users" style="font-size: 3rem; margin-bottom: 16px; opacity: 0.5;"></i>
+        <h3>{% if q %}Sin resultados para "{{ q }}"{% else %}No hay clientes registrados{% endif %}</h3>
+        <p>{% if q %}Intenta con otro nombre.{% else %}Comienza agregando los clientes de tu tienda.{% endif %}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

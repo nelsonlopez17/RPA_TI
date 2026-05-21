@@ -1,0 +1,79 @@
+{% extends 'base.html' %}
+{% load humanize %}
+{% block page_title %}Órdenes de Compra{% endblock %}
+
+{% block header_actions %}
+<a href="{% url 'ordencompra_create' %}" class="btn btn-primary">
+    <i class="fa-solid fa-plus"></i> Nueva Orden
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="glass-panel" style="padding: 24px;">
+    <form method="get" style="margin-bottom: 24px; display: flex; gap: 12px;">
+        <input type="text" name="q" value="{{ q }}" placeholder="Buscar por nombre de proveedor..."
+               style="flex: 1; padding: 10px 16px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 0.95rem;">
+        <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
+        {% if q %}<a href="{% url 'ordencompra_list' %}" class="btn btn-secondary"><i class="fa-solid fa-xmark"></i> Limpiar</a>{% endif %}
+    </form>
+
+    {% if ordenes %}
+    <div class="table-container">
+        <table>
+            <thead>
+                <tr>
+                    <th>ID</th>
+                    <th>Proveedor</th>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Costo Total</th>
+                    <th>Fecha</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for o in ordenes %}
+                <tr>
+                    <td style="font-weight: 500;">OC-{{ o.id }}</td>
+                    <td>{{ o.proveedor.nombre }}</td>
+                    <td><span style="background: rgba(99,102,241,0.2); color: var(--accent); padding: 4px 8px; border-radius: 4px; font-size: 0.8rem;">{{ o.producto.nombre }}</span></td>
+                    <td>{{ o.cantidad|intcomma }}</td>
+                    <td>Q. {{ o.costo_total|floatformat:2|intcomma }}</td>
+                    <td>{{ o.fecha_compra|date:"d/m/Y H:i" }}</td>
+                    <td>
+                        <a href="{% url 'ordencompra_update' o.pk %}" style="color: var(--text-secondary); margin-right: 12px; transition: color 0.2s;"><i class="fa-solid fa-pen-to-square"></i></a>
+                        <a href="{% url 'ordencompra_delete' o.pk %}" style="color: var(--danger); transition: color 0.2s;"><i class="fa-solid fa-trash"></i></a>
+                        <form action="{% url 'ordencompra_confirm' o.pk %}" method="post" style="display:inline; margin-left:12px;">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-success btn-sm" style="background: var(--accent); border:none; color:#fff; padding:4px 8px; border-radius:4px;">Confirmar</button>
+                        </form>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    {% if is_paginated %}
+    <div style="margin-top: 24px; display: flex; justify-content: center; gap: 8px;">
+        {% if page_obj.has_previous %}
+            <a href="?q={{ q }}&page={{ page_obj.previous_page_number }}" class="btn btn-secondary" style="padding: 8px 12px;"><i class="fa-solid fa-chevron-left"></i></a>
+        {% endif %}
+        <span style="display: flex; align-items: center; padding: 0 16px; background: rgba(0,0,0,0.2); border-radius: 8px; font-weight: 500;">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+        {% if page_obj.has_next %}
+            <a href="?q={{ q }}&page={{ page_obj.next_page_number }}" class="btn btn-secondary" style="padding: 8px 12px;"><i class="fa-solid fa-chevron-right"></i></a>
+        {% endif %}
+    </div>
+    {% endif %}
+
+    {% else %}
+    <div style="text-align: center; padding: 40px; color: var(--text-secondary);">
+        <i class="fa-solid fa-file-invoice" style="font-size: 3rem; margin-bottom: 16px; opacity: 0.5;"></i>
+        <h3>{% if q %}Sin resultados para "{{ q }}"{% else %}No hay órdenes registradas{% endif %}</h3>
+        <p>{% if q %}Intenta con otro nombre de proveedor.{% else %}Registra las compras que realizas a tus proveedores.{% endif %}</p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

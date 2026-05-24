@@ -4,9 +4,11 @@ services:
     runtime: python
     pythonVersion: 3.11
     
+    # Build: instalar dependencias
     buildCommand: pip install -r requirements.txt
     
-    startCommand: bash render-entrypoint.sh gunicorn configuracion_base.wsgi:application --bind 0.0.0.0:$PORT --workers 3
+    # Start: ejecutar gunicorn (las migraciones se hacen en el init script)
+    startCommand: bash -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn configuracion_base.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 60"
     
     envVars:
       - key: DEBUG
@@ -17,5 +19,3 @@ services:
         value: your-app-name.onrender.com
       - key: DATABASE_URL
         scope: secret
-      - key: STATIC_URL
-        value: /static/

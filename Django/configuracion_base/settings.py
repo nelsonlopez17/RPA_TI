@@ -100,17 +100,18 @@ DATABASES = {
     }
 }
 
-# Soporte para DATABASE_URL de Render (solo si está disponible)
-try:
-    import dj_database_url
-    if 'DATABASE_URL' in os.environ:
+# Soporte para DATABASE_URL de Render (fallback a variables individuales si falla)
+if 'DATABASE_URL' in os.environ:
+    try:
+        import dj_database_url
         DATABASES['default'] = dj_database_url.config(
             default=os.environ['DATABASE_URL'],
             conn_max_age=600,
         )
-except ImportError:
-    # dj_database_url no instalado (desarrollo local sin Render)
-    pass
+    except (ImportError, ValueError):
+        # Si dj_database_url no está disponible o DATABASE_URL es inválida,
+        # usar las variables de entorno individuales
+        pass
 
 
 # Password validation

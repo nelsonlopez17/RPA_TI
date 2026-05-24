@@ -1,0 +1,47 @@
+services:
+  # Servicio de PostgreSQL
+  db:
+    image: postgres:16-alpine
+    container_name: erp-postgres
+    environment:
+      POSTGRES_DB: ${DB_NAME:-db_erp}
+      POSTGRES_USER: ${DB_USER:-postgres}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-admin}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    ports:
+      - "${DB_PORT:-5432}:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Servicio de Django
+  web:
+    build: .
+    container_name: erp-django
+    command: gunicorn configuracion_base.wsgi:application --bind 0.0.0.0:8000 --workers 3
+    volumes:
+      - .:/app
+      - static_volume:/app/staticfiles
+    ports:
+      - "${APP_PORT:-8000}:8000"
+    environment:
+      DEBUG: ${DEBUG:-False}
+      SECRET_KEY: '${SECRET_KEY:-django-insecure-&@4^y3k69ob34ia)9464jid(+sc%^@z*$$kw9y4wwhocc2s5bpz}'
+      ALLOWED_HOSTS: ${ALLOWED_HOSTS:-localhost,127.0.0.1}
+      DB_ENGINE: ${DB_ENGINE:-django.db.backends.postgresql}
+      DB_NAME: ${DB_NAME:-db_erp}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-admin}
+      DB_HOST: ${DB_HOST:-db}
+      DB_PORT: ${DB_PORT:-5432}
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+  static_volume:

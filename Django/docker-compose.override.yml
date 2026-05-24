@@ -1,0 +1,27 @@
+# docker-compose.override.yml
+# Este archivo se usa automáticamente en desarrollo local para facilitar cambios en tiempo real
+# NO incluir en producción
+
+services:
+  web:
+    # Montar el código en tiempo real para desarrollo
+    volumes:
+      - .:/app
+      - /app/__pycache__  # Prevenir sincronización de caché
+    
+    # Usar Django development server en lugar de Gunicorn
+    command: python manage.py runserver 0.0.0.0:8000
+    
+    # Permitir pdb/debugger
+    stdin_open: true
+    tty: true
+    
+    # Variables para desarrollo
+    environment:
+      DEBUG: "True"
+      PYTHONUNBUFFERED: "1"
+
+  db:
+    # Exponer Puerto PostgreSQL para herramientas locales como pgAdmin
+    ports:
+      - "5432:5432"

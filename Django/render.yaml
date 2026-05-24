@@ -1,0 +1,21 @@
+services:
+  - type: web
+    name: erp-django
+    runtime: python
+    pythonVersion: 3.11
+    
+    buildCommand: pip install -r requirements.txt
+    
+    startCommand: bash render-entrypoint.sh gunicorn configuracion_base.wsgi:application --bind 0.0.0.0:$PORT --workers 3
+    
+    envVars:
+      - key: DEBUG
+        value: false
+      - key: SECRET_KEY
+        scope: secret
+      - key: ALLOWED_HOSTS
+        value: your-app-name.onrender.com
+      - key: DATABASE_URL
+        scope: secret
+      - key: STATIC_URL
+        value: /static/

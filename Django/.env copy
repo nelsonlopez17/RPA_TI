@@ -1,0 +1,18 @@
+# Django Settings
+DEBUG=True
+SECRET_KEY=django-insecure-&@4^y3k69ob34ia)9464jid(+sc%^@z*$kw9y4wwhocc2s5bpz
+ALLOWED_HOSTS=localhost,127.0.0.1
+
+# Database Configuration
+DB_ENGINE=django.db.backends.postgresql
+DB_NAME=db_erp
+DB_USER=postgres
+DB_PASSWORD=admin
+DB_HOST=localhost
+DB_PORT=5432
+
+# Application Settings
+APP_PORT=8000
+
+# Security (cambiar estos valores en producción)
+# python -c 'from django.core.management.utils import get_random_secret_key; print(get_random_secret_key())'

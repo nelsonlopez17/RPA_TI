@@ -7,8 +7,8 @@ services:
     # Build: instalar dependencias
     buildCommand: pip install -r requirements.txt
     
-    # Start: ejecutar gunicorn (las migraciones se hacen en el init script)
-    startCommand: bash -c "python manage.py migrate --noinput && python manage.py collectstatic --noinput && gunicorn configuracion_base.wsgi:application --bind 0.0.0.0:$PORT --workers 3 --timeout 60"
+    # Start: usar entrypoint.sh que hace migraciones y luego inicia gunicorn
+    startCommand: bash entrypoint.sh gunicorn configuracion_base.wsgi:application --bind 0.0.0.0:$PORT --workers 1 --timeout 60 --access-logfile -
     
     envVars:
       - key: DEBUG

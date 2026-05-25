@@ -34,7 +34,7 @@ class Command(BaseCommand):
 
             if User.objects.filter(username=username).exists():
                 self.stdout.write(
-                    self.style.WARNING(f'⚠️  Usuario "{username}" ya existe')
+                    self.style.WARNING(f'WARN: Usuario "{username}" ya existe')
                 )
                 existentes += 1
             else:
@@ -44,10 +44,10 @@ class Command(BaseCommand):
                     password=password
                 )
                 self.stdout.write(
-                    self.style.SUCCESS(f'✅ Usuario "{username}" creado')
+                    self.style.SUCCESS(f'OK: Usuario "{username}" creado')
                 )
                 creados += 1
 
         self.stdout.write(
-            self.style.SUCCESS(f'\n📊 Resumen: {creados} creados, {existentes} ya existían')
+            self.style.SUCCESS(f'\nResumen: {creados} creados, {existentes} ya existían')
         )

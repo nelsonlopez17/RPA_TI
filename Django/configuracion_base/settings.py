@@ -25,9 +25,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = config('SECRET_KEY', default='django-insecure-&@4^y3k69ob34ia)9464jid(+sc%^@z*$kw9y4wwhocc2s5bpz')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = config('DEBUG', default=False, cast=bool)
+DEBUG = config('DEBUG', default=True, cast=bool)
 
 ALLOWED_HOSTS = config('ALLOWED_HOSTS', default='localhost,127.0.0.1', cast=Csv())
+DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 
 # Application definition
@@ -89,29 +90,29 @@ WSGI_APPLICATION = 'configuracion_base.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': config('DB_ENGINE', default='django.db.backends.postgresql'),
-        'NAME': config('DB_NAME', default='db_erp'),
-        'USER': config('DB_USER', default='postgres'),
-        'PASSWORD': config('DB_PASSWORD', default='admin'),
-        'HOST': config('DB_HOST', default='localhost'),
-        'PORT': config('DB_PORT', default='5432'),
-    }
-}
+import dj_database_url
 
-# Soporte para DATABASE_URL de Render (fallback a variables individuales si falla)
-if 'DATABASE_URL' in os.environ:
-    try:
-        import dj_database_url
-        DATABASES['default'] = dj_database_url.config(
-            default=os.environ['DATABASE_URL'],
-            conn_max_age=600,
-        )
-    except (ImportError, ValueError):
-        # Si dj_database_url no está disponible o DATABASE_URL es inválida,
-        # usar las variables de entorno individuales
-        pass
+if DEBUG:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
+    }
+else:
+    # Build DATABASE_URL from individual DB_* variables if not provided
+    db_url = os.getenv('DATABASE_URL')
+    if not db_url:
+        # Use decouple's config() to read .env variables
+        db_user = config('DB_USER')
+        db_pass = config('DB_PASSWORD')
+        db_host = config('DB_HOST')
+        db_port = config('DB_PORT')
+        db_name = config('DB_NAME')
+        db_url = f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
+    DATABASES = {
+        'default': dj_database_url.parse(db_url, conn_max_age=600),
+    }
 
 
 # Password validation

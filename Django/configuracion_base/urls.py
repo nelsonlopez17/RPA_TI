@@ -20,13 +20,14 @@ from .views import HomeView, ExportView
 
 from rest_framework.routers import DefaultRouter
 from inventario.api import ProductoViewSet, AlertaSistemaViewSet
-from ventas.api import FacturaViewSet
+from ventas.api import FacturaViewSet, DetalleFacturaViewSet
 from compras.api import OrdenCompraViewSet, ProveedorViewSet
 
 router = DefaultRouter()
 router.register(r'productos', ProductoViewSet)
 router.register(r'alertas', AlertaSistemaViewSet)
 router.register(r'facturas', FacturaViewSet)
+router.register(r'detalle-facturas', DetalleFacturaViewSet)
 router.register(r'ordenes', OrdenCompraViewSet)
 router.register(r'proveedores', ProveedorViewSet)
 

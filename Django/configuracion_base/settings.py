@@ -92,26 +92,32 @@ WSGI_APPLICATION = 'configuracion_base.wsgi.application'
 
 import dj_database_url
 
-if DEBUG:
+# Build DATABASE_URL from individual DB_* variables if not provided
+db_url = os.getenv('DATABASE_URL')
+if not db_url:
+    try:
+        # Use decouple's config() to read .env variables
+        db_user = config('DB_USER', default='')
+        db_pass = config('DB_PASSWORD', default='')
+        db_host = config('DB_HOST', default='localhost')
+        db_port = config('DB_PORT', default='5432')
+        db_name = config('DB_NAME', default='')
+        if db_name:
+            db_url = f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
+    except Exception:
+        pass
+
+if db_url:
+    DATABASES = {
+        'default': dj_database_url.parse(db_url, conn_max_age=600),
+    }
+else:
+    # Fallback a SQLite si no hay configuración de base de datos
     DATABASES = {
         'default': {
             'ENGINE': 'django.db.backends.sqlite3',
             'NAME': BASE_DIR / 'db.sqlite3',
         }
-    }
-else:
-    # Build DATABASE_URL from individual DB_* variables if not provided
-    db_url = os.getenv('DATABASE_URL')
-    if not db_url:
-        # Use decouple's config() to read .env variables
-        db_user = config('DB_USER')
-        db_pass = config('DB_PASSWORD')
-        db_host = config('DB_HOST')
-        db_port = config('DB_PORT')
-        db_name = config('DB_NAME')
-        db_url = f"postgresql://{db_user}:{db_pass}@{db_host}:{db_port}/{db_name}"
-    DATABASES = {
-        'default': dj_database_url.parse(db_url, conn_max_age=600),
     }
 
 

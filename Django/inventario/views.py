@@ -52,10 +52,15 @@ class ProductoListView(RoleRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
+        from django.db.models import Q
         qs = Producto.objects.select_related('categoria')
         q = self.request.GET.get('q')
         if q:
-            qs = qs.filter(nombre__icontains=q)
+            qs = qs.filter(
+                Q(nombre__icontains=q) |
+                Q(sku__icontains=q) |
+                Q(categoria__nombre__icontains=q)
+            )
         return qs
 
     def get_context_data(self, **kwargs):

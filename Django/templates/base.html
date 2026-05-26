@@ -7,12 +7,14 @@
     <title>ChardonayStore - ERP</title>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/css/select2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 </head>
 <body>
 
     <!-- Sidebar Navigation -->
-    <nav class="sidebar">
+    <div class="sidebar-overlay" id="sidebarOverlay"></div>
+    <nav class="sidebar" id="sidebar">
         <a href="/" class="brand">
             <i class="fa-solid fa-microchip"></i>
             Chardonay<span>Store</span>
@@ -106,7 +108,12 @@
     <!-- Main Content -->
     <main class="main-content">
         <div class="header">
-            <h1 class="page-title">{% block page_title %}Dashboard{% endblock %}</h1>
+            <div class="header-top-row">
+                <button class="mobile-menu-btn" id="mobileMenuBtn">
+                    <i class="fa-solid fa-bars"></i>
+                </button>
+                <h1 class="page-title">{% block page_title %}Dashboard{% endblock %}</h1>
+            </div>
             {% block header_actions %}{% endblock %}
         </div>
 
@@ -122,5 +129,22 @@
         {% endblock %}
     </main>
 
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-rc.0/dist/js/select2.min.js"></script>
+    <script>
+        // Mobile Sidebar Toggle
+        const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+        const sidebar = document.getElementById('sidebar');
+        const sidebarOverlay = document.getElementById('sidebarOverlay');
+
+        function toggleSidebar() {
+            sidebar.classList.toggle('active');
+            sidebarOverlay.classList.toggle('active');
+        }
+
+        if(mobileMenuBtn) mobileMenuBtn.addEventListener('click', toggleSidebar);
+        if(sidebarOverlay) sidebarOverlay.addEventListener('click', toggleSidebar);
+    </script>
+    {% block scripts %}{% endblock %}
 </body>
 </html>

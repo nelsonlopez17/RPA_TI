@@ -19,10 +19,15 @@ class ClienteListView(RoleRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
+        from django.db.models import Q
         qs = Cliente.objects.all()
         q = self.request.GET.get('q')
         if q:
-            qs = qs.filter(nombre__icontains=q)
+            qs = qs.filter(
+                Q(nombre__icontains=q) |
+                Q(nit__icontains=q) |
+                Q(correo__icontains=q)
+            )
         return qs
 
     def get_context_data(self, **kwargs):
@@ -70,10 +75,14 @@ class FacturaListView(RoleRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
+        from django.db.models import Q
         qs = Factura.objects.select_related('cliente').order_by('-fecha_venta')
         q = self.request.GET.get('q')
         if q:
-            qs = qs.filter(cliente__nombre__icontains=q)
+            qs = qs.filter(
+                Q(cliente__nombre__icontains=q) |
+                Q(numero_factura__icontains=q)
+            )
         return qs
 
     def get_context_data(self, **kwargs):
@@ -104,44 +113,74 @@ class FacturaCreateView(RoleRequiredMixin, View):
         if form.is_valid() and formset.is_valid():
             try:
                 with transaction.atomic():
-                    factura = form.save(commit=False)
-                    factura.total = Decimal('0.00')
-                    factura.save()
-
-                    total = Decimal('0.00')
-                    detalles_validos = 0
-
+                    # 1. Agrupar cantidades por producto requerido
+                    productos_requeridos = {}
                     for detalle_form in formset:
                         cd = detalle_form.cleaned_data
                         if cd and not cd.get('DELETE') and cd.get('producto'):
                             producto = cd['producto']
                             cantidad = cd['cantidad']
-
-                            if cantidad > producto.stock:
-                                messages.error(request, f'Stock insuficiente para "{producto.nombre}". Disponible: {producto.stock}')
-                                factura.delete()
-                                return render(request, self.template_name, {
-                                    'form': form, 'formset': formset,
-                                    'productos': self._get_productos(), 'accion': 'Crear'
-                                })
-
-                            DetalleFactura.objects.create(
-                                factura=factura,
-                                producto=producto,
-                                cantidad=cantidad,
-                                precio_unitario=producto.precio_venta
-                            )
-                            Producto.objects.filter(pk=producto.pk).update(stock=producto.stock - cantidad)
-                            total += producto.precio_venta * cantidad
-                            detalles_validos += 1
-
-                    if detalles_validos == 0:
-                        factura.delete()
+                            if producto.pk in productos_requeridos:
+                                productos_requeridos[producto.pk]['cantidad'] += cantidad
+                            else:
+                                productos_requeridos[producto.pk] = {
+                                    'producto': producto,
+                                    'cantidad': cantidad
+                                }
+                    
+                    if not productos_requeridos:
                         messages.error(request, 'Debes agregar al menos un producto a la factura.')
                         return render(request, self.template_name, {
                             'form': form, 'formset': formset,
                             'productos': self._get_productos(), 'accion': 'Crear'
                         })
+
+                    # 2. Bloquear productos en base de datos para lectura/escritura segura
+                    producto_ids = list(productos_requeridos.keys())
+                    productos_db = list(Producto.objects.select_for_update().filter(pk__in=producto_ids))
+                    
+                    # 3. Validar stock real
+                    stock_insuficiente = False
+                    for prod_db in productos_db:
+                        req_cant = productos_requeridos[prod_db.pk]['cantidad']
+                        if req_cant > prod_db.stock:
+                            messages.error(request, f'Stock insuficiente para "{prod_db.nombre}". Disponible: {prod_db.stock}, Requerido: {req_cant}')
+                            stock_insuficiente = True
+
+                    if stock_insuficiente:
+                        transaction.set_rollback(True)
+                        return render(request, self.template_name, {
+                            'form': form, 'formset': formset,
+                            'productos': self._get_productos(), 'accion': 'Crear'
+                        })
+
+                    # 4. Crear Factura
+                    factura = form.save(commit=False)
+                    factura.total = Decimal('0.00')
+                    factura.save()
+                    
+                    total = Decimal('0.00')
+
+                    # 5. Crear Detalles y descontar stock
+                    for detalle_form in formset:
+                        cd = detalle_form.cleaned_data
+                        if cd and not cd.get('DELETE') and cd.get('producto'):
+                            producto = cd['producto']
+                            cantidad = cd['cantidad']
+                            
+                            prod_db = next(p for p in productos_db if p.pk == producto.pk)
+
+                            DetalleFactura.objects.create(
+                                factura=factura,
+                                producto=prod_db,
+                                cantidad=cantidad,
+                                precio_unitario=prod_db.precio_venta
+                            )
+                            
+                            prod_db.stock -= cantidad
+                            prod_db.save(update_fields=['stock'])
+                            
+                            total += prod_db.precio_venta * cantidad
 
                     factura.total = total
                     factura.save()

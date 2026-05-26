@@ -103,8 +103,44 @@
     }
     form input:focus, form select:focus { outline: none; border-color: var(--accent); box-shadow: 0 0 0 2px rgba(99,102,241,0.2); }
     form option { background: #1e293b; color: var(--text-primary); }
+
+    /* Select2 Dark Mode Styles */
+    .select2-container--default .select2-selection--single {
+        background: rgba(0, 0, 0, 0.2);
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        height: 41px;
+        display: flex;
+        align-items: center;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__rendered {
+        color: var(--text-primary);
+        line-height: normal;
+        padding-left: 14px;
+    }
+    .select2-container--default .select2-selection--single .select2-selection__arrow {
+        height: 39px;
+    }
+    .select2-dropdown {
+        background: #1e293b;
+        border: 1px solid var(--border-color);
+    }
+    .select2-container--default .select2-search--dropdown .select2-search__field {
+        background: rgba(0,0,0,0.2);
+        color: #fff;
+        border: 1px solid var(--border-color);
+    }
+    .select2-results__option {
+        color: #fff;
+    }
+    .select2-container--default .select2-results__option--highlighted[aria-selected] {
+        background-color: var(--accent);
+    }
 </style>
 
+{% endblock %}
+
+{% block scripts %}
 <script>
 // Precios de productos desde Django
 const precios = {
@@ -137,7 +173,15 @@ function calcularTotales() {
     document.getElementById('total-general').textContent = 'Q. ' + total.toLocaleString('es-GT', {minimumFractionDigits: 2});
 }
 
-document.addEventListener('change', calcularTotales);
+$(document).ready(function() {
+    $('select').select2({
+        width: '100%'
+    });
+    
+    // Select2 doesn't trigger standard "change" for native listeners sometimes, so we bind via jQuery
+    $('select').on('change', calcularTotales);
+});
+
 document.addEventListener('input', calcularTotales);
 </script>
 {% endblock %}

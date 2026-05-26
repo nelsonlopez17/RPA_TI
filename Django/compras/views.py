@@ -13,10 +13,15 @@ class ProveedorListView(RoleRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
+        from django.db.models import Q
         qs = Proveedor.objects.all()
         q = self.request.GET.get('q')
         if q:
-            qs = qs.filter(nombre__icontains=q)
+            qs = qs.filter(
+                Q(nombre__icontains=q) |
+                Q(contacto__icontains=q) |
+                Q(telefono__icontains=q)
+            )
         return qs
 
     def get_context_data(self, **kwargs):
@@ -50,12 +55,17 @@ from django.views import View
 class OrdenCompraConfirmView(RoleRequiredMixin, View):
     allowed_roles = ['Administrador', 'Bodeguero']
     def post(self, request, *args, **kwargs):
-        """Confirm the order: add product stock and delete the order."""
-        orden = OrdenCompra.objects.get(pk=kwargs['pk'])
-        producto = orden.producto
-        producto.stock = producto.stock + orden.cantidad
-        producto.save()
-        orden.delete()
+        """Confirm the order: add product stock and update status."""
+        from django.db.models import F
+        from django.db import transaction
+        with transaction.atomic():
+            orden = OrdenCompra.objects.select_for_update().get(pk=kwargs['pk'])
+            if orden.estado == 'Pendiente':
+                producto = orden.producto
+                producto.stock = F('stock') + orden.cantidad
+                producto.save()
+                orden.estado = 'Recibida'
+                orden.save()
         return redirect('ordencompra_list')
 
 class OrdenCompraListView(RoleRequiredMixin, ListView):
@@ -66,10 +76,15 @@ class OrdenCompraListView(RoleRequiredMixin, ListView):
     paginate_by = 20
 
     def get_queryset(self):
+        from django.db.models import Q
         qs = OrdenCompra.objects.select_related('proveedor', 'producto')
         q = self.request.GET.get('q')
         if q:
-            qs = qs.filter(proveedor__nombre__icontains=q)
+            qs = qs.filter(
+                Q(proveedor__nombre__icontains=q) |
+                Q(producto__nombre__icontains=q) |
+                Q(estado__icontains=q)
+            )
         return qs
 
     def get_context_data(self, **kwargs):
@@ -100,9 +115,14 @@ class OrdenCompraDeleteView(RoleRequiredMixin, DeleteView):
     success_url = reverse_lazy('ordencompra_list')
 
     def delete(self, request, *args, **kwargs):
-        """Update product stock before deleting the order."""
-        orden = self.get_object()
-        producto = orden.producto
-        producto.stock = producto.stock + orden.cantidad
-        producto.save()
-        return super().delete(request, *args, **kwargs)
+        """Update product stock before deleting the order only if it was received."""
+        from django.db.models import F
+        from django.db import transaction
+        with transaction.atomic():
+            orden = OrdenCompra.objects.select_for_update().get(pk=self.get_object().pk)
+            if orden.estado == 'Recibida':
+                producto = orden.producto
+                producto.stock = F('stock') - orden.cantidad
+                producto.save()
+            orden.delete()
+        return redirect('ordencompra_list')

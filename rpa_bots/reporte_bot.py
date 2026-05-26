@@ -1,7 +1,7 @@
 import requests
 import time
 
-API_URL = "http://127.0.0.1:8000/api/v1/facturas/"
+API_URL = "https://erp-django-smea.onrender.com/api/v1/facturas/"
 
 def run_bot():
     print("🤖 Iniciando Bot de Reportes y Facturación...")

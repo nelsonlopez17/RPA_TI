@@ -26,9 +26,10 @@ sys.stdout.reconfigure(encoding='utf-8')
 import requests
 import time
 
-ALERTAS_URL = "http://127.0.0.1:8000/api/v1/alertas/"
-ORDENES_URL = "http://127.0.0.1:8000/api/v1/ordenes/"
-PRODUCTOS_URL = "http://127.0.0.1:8000/api/v1/productos/"
+BASE_URL = "https://erp-django-smea.onrender.com/api/v1"
+ALERTAS_URL = f"{BASE_URL}/alertas/"
+ORDENES_URL = f"{BASE_URL}/ordenes/"
+PRODUCTOS_URL = f"{BASE_URL}/productos/"
 
 STOCK_OBJETIVO = 50  # Cantidad ideal de stock a la que queremos llegar
 STOCK_LIMITE_ALERTA = 10  # Umbral para disparar una alerta de bajo stock
@@ -43,7 +44,8 @@ def calcular_cantidad(producto_id, stock_objetivo):
         if response.status_code == 200:
             producto = response.json()
             stock_actual = producto.get('stock', 0)
-            precio_compra = float(producto.get('precio_compra', 0))
+            precio_venta = float(producto.get('precio_venta', 0))
+            precio_compra = precio_venta * 0.75
             cantidad = max(stock_objetivo - stock_actual, 1)
             costo_total = round(cantidad * precio_compra, 2)
             return cantidad, costo_total, producto.get('nombre', f'Producto #{producto_id}'), stock_actual, producto.get('proveedor_predeterminado') or producto.get('proveedor_id')
@@ -122,7 +124,8 @@ def run_bot():
                 continue
 
             stock_actual = prod.get('stock', 0)
-            precio_compra = float(prod.get('precio_compra', 0))
+            precio_venta = float(prod.get('precio_venta', 0))
+            precio_compra = precio_venta * 0.75
             cantidad = max(STOCK_OBJETIVO - stock_actual, 1)
             costo_total = round(cantidad * precio_compra, 2)
             proveedor = prod.get('proveedor_predeterminado') or prod.get('proveedor_id')

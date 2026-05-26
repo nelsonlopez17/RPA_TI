@@ -13,5 +13,6 @@ urlpatterns = [
     path('ordenes/nueva/', views.OrdenCompraCreateView.as_view(), name='ordencompra_create'),
     path('ordenes/<int:pk>/editar/', views.OrdenCompraUpdateView.as_view(), name='ordencompra_update'),
     path('ordenes/<int:pk>/confirmar/', views.OrdenCompraConfirmView.as_view(), name='ordencompra_confirm'),
+    path('ordenes/confirmar-todas/', views.OrdenCompraConfirmAllView.as_view(), name='ordencompra_confirm_all'),
     path('ordenes/<int:pk>/eliminar/', views.OrdenCompraDeleteView.as_view(), name='ordencompra_delete'),
 ]

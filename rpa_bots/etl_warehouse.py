@@ -5,7 +5,7 @@ from datetime import datetime
 import sys
 sys.stdout.reconfigure(encoding='utf-8')
 
-API_BASE = "http://127.0.0.1:8000/api/v1"
+API_BASE = "https://erp-django-smea.onrender.com/api/v1"
 DW_DIR = "data_warehouse"
 
 def get_data(endpoint):

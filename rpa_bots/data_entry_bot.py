@@ -2,7 +2,7 @@ import csv
 import requests
 import time
 
-API_URL = "http://127.0.0.1:8000/api/v1/productos/"
+API_URL = "https://erp-django-smea.onrender.com/api/v1/productos/"
 CSV_PATH = "data/nuevos_productos.csv"
 
 def run_bot():

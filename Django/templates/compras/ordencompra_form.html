@@ -104,6 +104,41 @@ $(document).ready(function() {
     $('select').select2({
         width: '100%'
     });
+
+    var productPrices = {{ product_prices|safe|default:"{}" }};
+    var $productoSelect = $('#id_producto');
+    var $cantidadInput = $('#id_cantidad');
+    var $costoTotalInput = $('#id_costo_total');
+
+    // Make the cost field readonly and style it to show it's disabled
+    $costoTotalInput.prop('readonly', true).css({
+        'background-color': 'rgba(255,255,255,0.05)',
+        'pointer-events': 'none',
+        'color': 'var(--text-secondary)'
+    });
+
+    function updateCostoTotal() {
+        var productoId = $productoSelect.val();
+        var cantidad = parseFloat($cantidadInput.val()) || 0;
+        
+        if (productoId && productPrices[productoId]) {
+            var precioVenta = productPrices[productoId];
+            // The purchase price is 25% cheaper than the normal selling price
+            var precioCompra = precioVenta * 0.75;
+            var costoTotal = precioCompra * cantidad;
+            $costoTotalInput.val(costoTotal.toFixed(2));
+        } else {
+            $costoTotalInput.val('0.00');
+        }
+    }
+
+    $productoSelect.on('change', updateCostoTotal);
+    $cantidadInput.on('input', updateCostoTotal);
+
+    // Initial calculation if editing
+    if (!$costoTotalInput.val() || $costoTotalInput.val() === '0.00' || $costoTotalInput.val() === '0') {
+        updateCostoTotal();
+    }
 });
 </script>
 {% endblock %}

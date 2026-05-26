@@ -1,151 +1,101 @@
 id,sku,nombre,categoria
-10,PRD-69976,Disco Duro Premium Modelo 875,3
-9,PRD-11343,Disco Duro Ultra Modelo 202,2
-20,PRD-26508,Laptop Basic Modelo 618,3
-30,PRD-73739,Cargador Premium Modelo 551,2
-11,PRD-61344,Cargador Pro Modelo 477,3
-12,PRD-20136,Cable Ultra Modelo 319,1
-14,PRD-69340,Teclado Ultra Modelo 855,1
-15,PRD-52629,Funda Advanced Modelo 890,1
-16,PRD-12727,Disco Duro Ultra Modelo 620,2
-17,PRD-49756,Tarjeta Madre Lite Modelo 253,1
-18,PRD-98097,Memoria RAM Ultra Modelo 589,2
-19,PRD-43170,Cable Advanced Modelo 370,3
-21,PRD-82594,Disco Duro Advanced Modelo 654,1
-22,PRD-69286,Laptop Plus Modelo 508,3
-23,PRD-61534,Funda Pro Modelo 161,1
-24,PRD-20635,Monitor Basic Modelo 638,2
-25,PRD-88007,Laptop Lite Modelo 369,2
-26,PRD-25353,Funda Basic Modelo 532,3
-28,PRD-23795,Memoria RAM Premium Modelo 175,1
-29,PRD-37157,Teclado Advanced Modelo 290,3
-31,PRD-97775,Teclado Advanced Modelo 718,1
-32,PRD-38148,Cargador Ultra Modelo 238,3
-33,PRD-88249,Laptop Basic Modelo 223,2
-34,PRD-93857,Mouse Advanced Modelo 327,2
-35,PRD-87954,Teclado Lite Modelo 638,3
-36,PRD-93559,Funda Ultra Modelo 929,3
-37,PRD-12387,Teclado Pro Modelo 779,1
-38,PRD-51255,Cable Basic Modelo 831,1
-39,PRD-94060,Laptop Basic Modelo 797,2
-41,PRD-48992,Monitor Lite Modelo 821,2
-42,PRD-29179,Tarjeta Madre Basic Modelo 760,3
-43,PRD-72408,Disco Duro Plus Modelo 702,2
-44,PRD-77697,Teclado Plus Modelo 606,1
-45,PRD-36644,Cargador Pro Modelo 516,3
-46,PRD-23064,Funda Premium Modelo 232,3
-47,PRD-84788,Cable Ultra Modelo 306,3
-48,PRD-66601,Tarjeta Madre Max Modelo 478,1
-49,PRD-51043,Memoria RAM Ultra Modelo 547,3
-50,PRD-44189,Disco Duro Premium Modelo 997,2
-51,PRD-16852,Funda Max Modelo 398,1
-53,PRD-44626,Funda Max Modelo 696,3
-54,PRD-94095,Cable Advanced Modelo 204,2
-55,PRD-26407,Monitor Basic Modelo 768,2
-56,PRD-52013,Teclado Pro Modelo 836,2
-57,PRD-70128,Funda Max Modelo 692,2
-58,PRD-30842,Cargador Pro Modelo 613,3
-3,RAZ-BW-01,Teclado Mecánico Razer,2
-60,PRD-94305,Tarjeta Madre Plus Modelo 230,2
-61,PRD-64601,Mouse Advanced Modelo 713,2
-62,PRD-24028,Tarjeta Madre Pro Modelo 985,2
-64,PRD-36487,Cable Plus Modelo 695,3
-65,PRD-61355,Funda Premium Modelo 995,1
-66,PRD-23804,Laptop Basic Modelo 141,2
-67,PRD-77644,Funda Pro Modelo 873,2
-68,PRD-99417,Disco Duro Pro Modelo 728,3
-69,PRD-16801,Monitor Basic Modelo 973,3
-70,PRD-35212,Mouse Max Modelo 552,2
-71,PRD-41684,Teclado Advanced Modelo 111,1
-72,PRD-12162,Tarjeta Madre Premium Modelo 651,3
-73,PRD-51327,Mouse Lite Modelo 602,1
-74,PRD-70883,Funda Premium Modelo 579,2
-75,PRD-36683,Memoria RAM Pro Modelo 268,2
-77,PRD-18441,Disco Duro Lite Modelo 192,2
-78,PRD-91674,Memoria RAM Premium Modelo 165,3
-79,PRD-93937,Cable Ultra Modelo 709,1
-80,PRD-28828,Mouse Pro Modelo 825,3
-81,PRD-24296,Mouse Max Modelo 756,2
-82,PRD-97506,Teclado Pro Modelo 293,1
-83,PRD-79822,Teclado Lite Modelo 530,2
-84,PRD-84460,Memoria RAM Pro Modelo 788,2
-85,PRD-89821,Tarjeta Madre Premium Modelo 108,3
-86,PRD-70327,Teclado Lite Modelo 126,1
-87,PRD-23503,Memoria RAM Plus Modelo 827,1
-88,PRD-87763,Funda Basic Modelo 350,3
-90,PRD-94331,Mouse Max Modelo 432,2
-91,PRD-68225,Funda Premium Modelo 262,3
-92,PRD-56780,Teclado Ultra Modelo 226,3
-93,PRD-21085,Cable Ultra Modelo 308,1
-94,PRD-48223,Tarjeta Madre Basic Modelo 584,3
-95,PRD-98890,Memoria RAM Basic Modelo 950,2
-96,PRD-83007,Cargador Lite Modelo 425,3
-97,PRD-80293,Disco Duro Max Modelo 383,2
-98,PRD-67381,Tarjeta Madre Lite Modelo 678,1
-99,PRD-23234,Monitor Lite Modelo 551,1
-100,PRD-32555,Disco Duro Ultra Modelo 669,1
-101,PRD-52275,Cargador Premium Modelo 689,2
-103,PRD-44611,Mouse Premium Modelo 985,2
-104,PRD-76430,Monitor Pro Modelo 695,1
-105,PRD-91987,Mouse Basic Modelo 592,2
-106,PRD-18095,Disco Duro Basic Modelo 352,1
-107,PRD-34961,Funda Basic Modelo 654,1
-108,PRD-35453,Memoria RAM Advanced Modelo 438,3
-109,PRD-32004,Cargador Pro Modelo 245,1
-110,PRD-76140,Cable Advanced Modelo 419,2
-111,PRD-14573,Laptop Plus Modelo 757,2
-112,PRD-80107,Laptop Max Modelo 657,3
-113,PRD-84442,Cable Ultra Modelo 248,3
-114,PRD-22137,Monitor Lite Modelo 418,2
-115,PRD-30881,Cable Plus Modelo 301,2
-13,PRD-70655,Memoria RAM Basic Modelo 482,2
-27,PRD-67639,Memoria RAM Pro Modelo 621,1
-40,PRD-78208,Cable Ultra Modelo 808,1
-52,PRD-61930,Monitor Lite Modelo 624,3
-59,PRD-33552,Mouse Ultra Modelo 991,1
-63,PRD-45146,Laptop Advanced Modelo 851,2
-76,PRD-22010,Memoria RAM Ultra Modelo 270,1
-89,PRD-68530,Cargador Advanced Modelo 732,2
-102,PRD-43293,Monitor Advanced Modelo 717,2
-116,PRD-98929,Tarjeta Madre Basic Modelo 298,3
-117,PRD-91187,Mouse Max Modelo 799,2
-118,PRD-62770,Memoria RAM Advanced Modelo 806,3
-119,PRD-79423,Funda Advanced Modelo 507,3
-120,PRD-70725,Cable Lite Modelo 123,3
-121,PRD-37048,Cargador Max Modelo 809,1
-122,PRD-45599,Memoria RAM Ultra Modelo 301,2
-123,PRD-38572,Tarjeta Madre Premium Modelo 384,2
-124,PRD-30271,Mouse Max Modelo 843,1
-125,PRD-72037,Memoria RAM Basic Modelo 955,3
-126,PRD-99744,Funda Premium Modelo 807,3
-127,PRD-22339,Monitor Ultra Modelo 582,3
-128,PRD-12497,Laptop Pro Modelo 172,3
-129,PRD-92553,Cargador Max Modelo 195,3
-130,PRD-70759,Cable Pro Modelo 552,1
-131,PRD-56154,Tarjeta Madre Basic Modelo 549,1
-132,PRD-31642,Disco Duro Ultra Modelo 227,3
-133,PRD-74600,Memoria RAM Pro Modelo 440,1
-134,PRD-12975,Mouse Plus Modelo 286,2
-135,PRD-39170,Cargador Pro Modelo 649,3
-136,PRD-38316,Cable Lite Modelo 121,3
-137,PRD-67413,Monitor Premium Modelo 218,2
-138,PRD-27090,Mouse Pro Modelo 775,2
-139,PRD-90960,Mouse Basic Modelo 471,3
-140,PRD-74447,Cargador Lite Modelo 253,3
-141,PRD-58974,Teclado Lite Modelo 203,3
-142,PRD-18073,Cable Pro Modelo 566,3
-143,PRD-16060,Teclado Ultra Modelo 742,3
-144,PRD-92514,Cargador Lite Modelo 203,3
-145,PRD-20972,Disco Duro Plus Modelo 585,1
-146,PRD-57765,Cable Ultra Modelo 631,3
-147,PRD-41489,Cargador Advanced Modelo 997,3
-148,PRD-29368,Disco Duro Max Modelo 352,3
-149,PRD-32859,Tarjeta Madre Lite Modelo 134,1
-150,PRD-39849,Mouse Pro Modelo 719,2
-151,PRD-64717,Laptop Lite Modelo 912,2
-152,PRD-74951,Laptop Plus Modelo 334,3
-153,PRD-89801,Monitor Max Modelo 360,2
-154,PRD-21267,Funda Premium Modelo 333,2
-155,12jskajd,Laptop Asus i7 rtx 5080,1
-1,DELL-XPS-15,Laptop Dell XPS 15,1
-2,LOG-MX-3,Mouse Logitech MX Master 3,2
+56,PRD-1005,Laptop Acer Nitro 5,8
+57,PRD-1006,MSI Katana GF66,8
+58,PRD-1007,Lenovo IdeaPad 3,8
+59,PRD-1008,Laptop HP Omen,8
+61,PRD-1010,PC Gamer Armada Entry,9
+63,PRD-1012,Workstation Dell Precision,9
+64,PRD-1013,HP EliteDesk,9
+65,PRD-1014,PC Gamer High-End RTX 4070,9
+67,PRD-1016,Apple Mac Mini,9
+68,PRD-1017,iMac 24 pulgadas,9
+70,PRD-1019,Intel Core i5-13400F,10
+71,PRD-1020,Intel Core i7-13700K,10
+72,PRD-1021,Intel Core i9-14900K,10
+73,PRD-1022,AMD Ryzen 3 3200G,10
+75,PRD-1024,AMD Ryzen 7 5800X3D,10
+76,PRD-1025,AMD Ryzen 9 7950X,10
+77,PRD-1026,ASUS RTX 3060 12GB,11
+78,PRD-1027,MSI RTX 4060 Ti,11
+79,PRD-1028,Gigabyte RTX 4070 12GB,11
+80,PRD-1029,Zotac RTX 4090 24GB,11
+81,PRD-1030,Sapphire RX 6600 8GB,11
+83,PRD-1032,PowerColor RX 7900 XTX,11
+84,PRD-1033,NVIDIA GTX 1650 4GB,11
+86,PRD-1035,RAM Kingston Fury 16GB DDR4,12
+88,PRD-1037,RAM Crucial 16GB DDR5,12
+89,PRD-1038,RAM Adata XPG 8GB RGB,12
+90,PRD-1039,RAM Kingston Value 4GB,12
+91,PRD-1040,RAM Corsair Dominator 64GB,12
+92,PRD-1041,SSD Kingston 240GB 2.5,13
+97,PRD-1046,Disco Duro HDD WD Black 2TB,13
+98,PRD-1047,Disco Duro Externo Adata 1TB,13
+52,PRD-1001,Laptop Dell Inspiron,8
+54,PRD-1003,ASUS ROG Strix,8
+55,PRD-1004,MacBook Air M2,8
+101,PRD-1050,Motherboard MSI Z790 Tomahawk,14
+102,PRD-1051,Motherboard ASUS ROG X670E,14
+104,PRD-1053,Motherboard Gigabyte A520M,14
+105,PRD-1054,Fuente EVGA 500W 80+ White,15
+106,PRD-1055,Fuente Corsair CV650 80+ Bronze,15
+107,PRD-1056,Fuente XPG Core Reactor 750W 80+ Gold,15
+109,PRD-1058,Fuente Thermaltake 600W RGB,15
+111,PRD-1060,Mouse Razer DeathAdder V2,16
+112,PRD-1061,Teclado Mecánico Redragon Kumara,16
+113,PRD-1062,Teclado HyperX Alloy Origins,16
+116,PRD-1065,Micrófono HyperX QuadCast,16
+117,PRD-1066,Webcam Logitech C920,16
+120,PRD-1069,"Monitor ASUS TUF 24"" 165Hz",17
+122,PRD-1071,"Monitor Dell UltraSharp 27"" 4K",17
+123,PRD-1072,Monitor Gigabyte M27Q 170Hz,17
+125,PRD-1074,Router ASUS RT-AX58U WiFi 6,18
+126,PRD-1075,Switch TP-Link 5 Puertos Gigabit,18
+127,PRD-1076,Adaptador WiFi USB Nano,18
+128,PRD-1077,Tarjeta de Red PCIe TP-Link,18
+131,PRD-1080,Cable DisplayPort 1.4 2m,19
+133,PRD-1082,Hub USB-C Ugreen 7 en 1,19
+134,PRD-1083,Pasta Térmica Arctic MX-4,19
+135,PRD-1084,Ventilador Cooler Master 120mm RGB,19
+136,PRD-1085,Mousepad Razer Goliathus Extended,19
+137,PRD-1086,Fuente EVGA 500W 80+ White (Edición Especial),15
+141,PRD-1090,Mouse Razer DeathAdder V2 (Edición Especial),16
+142,PRD-1091,NVIDIA GTX 1650 4GB (Edición Especial),11
+144,PRD-1093,Disco Duro Externo Adata 1TB (Edición Especial),13
+145,PRD-1094,Audífonos Logitech G733 (Edición Especial),16
+147,PRD-1096,Disco Duro HDD Seagate 1TB (Edición Especial),13
+148,PRD-1097,Adaptador WiFi USB Nano (Edición Especial),18
+150,PRD-1099,SSD Samsung 980 Pro 1TB NVMe (Edición Especial),13
+139,PRD-1088,Router ASUS RT-AX58U WiFi 6 (Edición Especial),18
+124,PRD-1073,Router TP-Link Archer C50,18
+110,PRD-1059,Mouse Logitech G203,16
+115,PRD-1064,Audífonos Logitech G733,16
+99,PRD-1048,Motherboard ASUS Prime H610M,14
+103,PRD-1052,Motherboard ASRock B550M Pro4,14
+121,PRD-1070,"Monitor AOC 27"" 144Hz",17
+66,PRD-1015,PC Mini Intel NUC,9
+53,PRD-1002,Lenovo ThinkPad,8
+100,PRD-1049,Motherboard Gigabyte B660M,14
+85,PRD-1034,RAM Corsair Vengeance 8GB DDR4,12
+143,PRD-1092,Intel Core i5-13400F (Edición Especial),10
+130,PRD-1079,Cable HDMI 2.0 2m,19
+96,PRD-1045,Disco Duro HDD Seagate 1TB,13
+146,PRD-1095,ASUS ROG Strix (Edición Especial),8
+129,PRD-1078,Repetidor WiFi Xiaomi,18
+69,PRD-1018,Intel Core i3-12100F,10
+149,PRD-1098,Laptop HP Omen (Edición Especial),8
+114,PRD-1063,Audífonos Corsair HS50,16
+62,PRD-1011,PC Oficina Básica,9
+132,PRD-1081,"Mochila Targus para Laptop 15.6""",19
+94,PRD-1043,SSD Samsung 980 Pro 1TB NVMe,13
+74,PRD-1023,AMD Ryzen 5 5600X,10
+87,PRD-1036,RAM G.Skill Trident Z 32GB DDR5,12
+82,PRD-1031,ASRock RX 7800 XT,11
+140,PRD-1089,AMD Ryzen 3 3200G (Edición Especial),10
+108,PRD-1057,Fuente ASUS ROG Thor 1000W Platinum,15
+138,PRD-1087,SSD Kingston 240GB 2.5 (Edición Especial),13
+119,PRD-1068,"Monitor Samsung 27"" Curvo",17
+118,PRD-1067,"Monitor LG 24"" IPS 75Hz",17
+93,PRD-1042,SSD WD Blue 500GB M.2,13
+60,PRD-1009,MacBook Pro M3,8
+51,PRD-1000,Laptop HP Pavilion,8
+95,PRD-1044,SSD Crucial P3 2TB,13

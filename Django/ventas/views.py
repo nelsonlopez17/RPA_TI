@@ -78,16 +78,21 @@ class FacturaListView(RoleRequiredMixin, ListView):
         from django.db.models import Q
         qs = Factura.objects.select_related('cliente').order_by('-fecha_venta')
         q = self.request.GET.get('q')
+        estado = self.request.GET.get('estado')
+        
         if q:
             qs = qs.filter(
                 Q(cliente__nombre__icontains=q) |
                 Q(numero_factura__icontains=q)
             )
+        if estado:
+            qs = qs.filter(estado=estado)
         return qs
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['q'] = self.request.GET.get('q', '')
+        context['estado'] = self.request.GET.get('estado', '')
         return context
 
 
@@ -220,3 +225,15 @@ class FacturaDeleteView(RoleRequiredMixin, DeleteView):
     model = Factura
     template_name = 'ventas/factura_confirm_delete.html'
     success_url = reverse_lazy('factura_list')
+
+class FacturaChangeStateView(RoleRequiredMixin, View):
+    allowed_roles = ['Administrador', 'Vendedor']
+    
+    def post(self, request, pk):
+        factura = get_object_or_404(Factura, pk=pk)
+        nuevo_estado = request.POST.get('estado')
+        if nuevo_estado in dict(Factura.ESTADO_CHOICES):
+            factura.estado = nuevo_estado
+            factura.save(update_fields=['estado'])
+            messages.success(request, f'Estado de factura {factura.numero_factura} actualizado a {nuevo_estado}.')
+        return redirect('factura_list')

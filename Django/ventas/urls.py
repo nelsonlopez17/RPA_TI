@@ -13,5 +13,6 @@ urlpatterns = [
     path('facturas/nueva/', views.FacturaCreateView.as_view(), name='factura_create'),
     path('facturas/<int:pk>/', views.FacturaDetailView.as_view(), name='factura_detail'),
     path('facturas/<int:pk>/editar/', views.FacturaUpdateView.as_view(), name='factura_update'),
+    path('facturas/<int:pk>/estado/', views.FacturaChangeStateView.as_view(), name='factura_change_state'),
     path('facturas/<int:pk>/eliminar/', views.FacturaDeleteView.as_view(), name='factura_delete'),
 ]

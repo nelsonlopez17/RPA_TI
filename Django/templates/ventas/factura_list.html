@@ -10,11 +10,20 @@
 
 {% block content %}
 <div class="glass-panel" style="padding: 24px;">
-    <form method="get" style="margin-bottom: 24px; display: flex; gap: 12px;">
-        <input type="text" name="q" value="{{ q }}" placeholder="Buscar factura por nombre de cliente..."
+    <form method="get" style="margin-bottom: 24px; display: flex; gap: 12px; align-items: center;">
+        <input type="text" name="q" value="{{ q }}" placeholder="Buscar factura por cliente o número..."
                style="flex: 1; padding: 10px 16px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 0.95rem;">
-        <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-magnifying-glass"></i> Buscar</button>
-        {% if q %}<a href="{% url 'factura_list' %}" class="btn btn-secondary"><i class="fa-solid fa-xmark"></i> Limpiar</a>{% endif %}
+               
+        <select name="estado" style="padding: 10px 16px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 8px; color: var(--text-primary); font-size: 0.95rem; outline: none;">
+            <option value="">Todos los estados</option>
+            <option value="Borrador" {% if estado == 'Borrador' %}selected{% endif %}>Borrador</option>
+            <option value="Emitida" {% if estado == 'Emitida' %}selected{% endif %}>Emitida</option>
+            <option value="Enviada" {% if estado == 'Enviada' %}selected{% endif %}>Enviada</option>
+            <option value="Pagada" {% if estado == 'Pagada' %}selected{% endif %}>Pagada</option>
+        </select>
+
+        <button type="submit" class="btn btn-secondary"><i class="fa-solid fa-magnifying-glass"></i> Filtrar</button>
+        {% if q or estado %}<a href="{% url 'factura_list' %}" class="btn btn-secondary"><i class="fa-solid fa-xmark"></i> Limpiar</a>{% endif %}
     </form>
 
     {% if facturas %}
@@ -26,6 +35,7 @@
                     <th>Cliente</th>
                     <th>Fecha</th>
                     <th>Total</th>
+                    <th>Estado</th>
                     <th>Acciones</th>
                 </tr>
             </thead>
@@ -37,6 +47,28 @@
                     <td>{{ f.fecha_venta|date:"d/m/Y H:i" }}</td>
                     <td>Q. {{ f.total|floatformat:2|intcomma }}</td>
                     <td>
+                        {% if f.estado == 'Borrador' %}
+                            <span style="background: rgba(107,114,128,0.2); color: #9ca3af; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Borrador</span>
+                        {% elif f.estado == 'Emitida' %}
+                            <span style="background: rgba(59,130,246,0.2); color: #3b82f6; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Emitida</span>
+                        {% elif f.estado == 'Enviada' %}
+                            <span style="background: rgba(234,179,8,0.2); color: #eab308; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Enviada</span>
+                        {% elif f.estado == 'Pagada' %}
+                            <span style="background: rgba(34,197,94,0.2); color: #22c55e; padding: 4px 10px; border-radius: 4px; font-size: 0.8rem; font-weight: 600;">Pagada</span>
+                        {% else %}
+                            <span style="padding: 4px 10px; font-size: 0.8rem;">{{ f.estado }}</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form action="{% url 'factura_change_state' f.pk %}" method="post" style="display:inline; margin-right: 12px;">
+                            {% csrf_token %}
+                            <select name="estado" onchange="this.form.submit()" style="padding: 4px 8px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); border-radius: 4px; color: var(--text-primary); font-size: 0.8rem; outline: none;">
+                                <option value="Borrador" {% if f.estado == 'Borrador' %}selected{% endif %}>Borrador</option>
+                                <option value="Emitida" {% if f.estado == 'Emitida' %}selected{% endif %}>Emitida</option>
+                                <option value="Enviada" {% if f.estado == 'Enviada' %}selected{% endif %}>Enviada</option>
+                                <option value="Pagada" {% if f.estado == 'Pagada' %}selected{% endif %}>Pagada</option>
+                            </select>
+                        </form>
                         <a href="{% url 'factura_detail' f.pk %}" style="color: var(--accent); margin-right: 12px; transition: color 0.2s;" title="Ver Detalle"><i class="fa-solid fa-eye"></i></a>
                         <a href="{% url 'factura_update' f.pk %}" style="color: var(--text-secondary); margin-right: 12px; transition: color 0.2s;" title="Editar"><i class="fa-solid fa-pen-to-square"></i></a>
                         <a href="{% url 'factura_delete' f.pk %}" style="color: var(--danger); transition: color 0.2s;" title="Eliminar"><i class="fa-solid fa-trash"></i></a>

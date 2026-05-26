@@ -1,6 +1,11 @@
 import csv
 import requests
 import time
+import sys
+
+# Forzar codificación UTF-8 en la consola de Windows para evitar errores con emojis
+sys.stdout.reconfigure(encoding='utf-8')
+
 
 API_URL = "https://erp-django-smea.onrender.com/api/v1/productos/"
 CSV_PATH = "data/nuevos_productos.csv"

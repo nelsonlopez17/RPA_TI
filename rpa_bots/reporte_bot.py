@@ -1,3 +1,10 @@
+"""
+BOT DE FACTURACIÓN Y REPORTES
+
+Escanea continuamente el ERP en busca de facturas recién generadas en estado 'Emitida'. 
+Simula el proceso de enviarlas al cliente, y luego actualiza su estado a 'Enviada' 
+mediante la API para evitar re-procesos.
+"""
 import requests
 import time
 import sys

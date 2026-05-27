@@ -59,6 +59,11 @@ class RPAGuiLauncher(tk.Tk):
         self.listbox.pack(fill="both", expand=True, padx=5, pady=5)
         self.listbox.bind("<<ListboxSelect>>", self._on_select)
 
+        # Description box
+        tk.Label(left, text="Descripción del Script", bg="#2a2a3e", fg="#94a3b8", font=("Segoe UI", 10, "bold")).pack(pady=(10,0), anchor="w", padx=5)
+        self.desc_box = tk.Text(left, height=10, bg="#1e1e2e", fg="#e2e8f0", font=("Segoe UI", 9), wrap="word", state="disabled", borderwidth=0)
+        self.desc_box.pack(fill="x", padx=5, pady=5)
+
         # Right – console and controls
         right = tk.Frame(main, bg="#1e1e2e")
         main.add(right)
@@ -98,8 +103,28 @@ class RPAGuiLauncher(tk.Tk):
         sel = self.listbox.curselection()
         if sel:
             self.run_btn.configure(state="normal")
+            script_name = self.listbox.get(sel[0])
+            script_path = os.path.join(BASE_DIR, script_name)
+            desc = self._get_script_description(script_path)
+            self.desc_box.configure(state="normal")
+            self.desc_box.delete("1.0", tk.END)
+            self.desc_box.insert(tk.END, desc)
+            self.desc_box.configure(state="disabled")
         else:
             self.run_btn.configure(state="disabled")
+            self.desc_box.configure(state="normal")
+            self.desc_box.delete("1.0", tk.END)
+            self.desc_box.configure(state="disabled")
+
+    def _get_script_description(self, filepath):
+        import ast
+        try:
+            with open(filepath, 'r', encoding='utf-8') as f:
+                tree = ast.parse(f.read())
+                doc = ast.get_docstring(tree)
+                return doc.strip() if doc else "Sin descripción disponible."
+        except Exception as e:
+            return f"No se pudo leer la descripción."
 
     def _log(self, msg):
         self.console.configure(state="normal")

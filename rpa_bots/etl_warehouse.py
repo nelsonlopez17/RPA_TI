@@ -1,3 +1,10 @@
+"""
+ETL PARA DATA WAREHOUSE (POWER BI)
+
+Bot analítico (Inteligencia de Negocios). Extrae, Transforma y Carga (ETL) 
+la información del ERP hacia un Data Warehouse optimizado. Transforma la data en memoria 
+y exporta archivos CSV listos para Power BI.
+"""
 import requests
 import pandas as pd
 import os

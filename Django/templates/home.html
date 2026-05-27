@@ -1,223 +1,159 @@
 {% extends 'base.html' %}
-{% load humanize %}
 
-{% block page_title %}Dashboard General{% endblock %}
+{% block page_title %}Dashboard - Power BI{% endblock %}
 
 {% block content %}
 <!-- Cabecera de Bienvenida Dinámica -->
-<div style="margin-bottom: 28px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
+<div style="margin-bottom: 20px; display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 16px;">
     <div>
         <h2 id="dynamic-greeting" style="font-weight: 700; margin-bottom: 4px; font-size: 1.75rem;">¡Hola, Bienvenido!</h2>
-        <p style="color: var(--text-secondary); font-size: 0.95rem;">Aquí tienes el resumen operativo e indicadores clave de ChardonayStore hoy.</p>
+        <p style="color: var(--text-secondary); font-size: 0.95rem;">Panel de análisis interactivo — ChardonayStore</p>
     </div>
-    <div style="font-size: 0.9rem; color: var(--text-secondary); background: rgba(255,255,255,0.04); padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 8px; backdrop-filter: blur(10px);">
-        <i class="fa-regular fa-calendar-days" style="color: var(--accent);"></i>
-        <span id="current-date" style="font-weight: 500;">Cargando fecha...</span>
-    </div>
-</div>
-
-<!-- Tarjetas de Estadísticas Principales -->
-<div class="grid">
-    <!-- Card 1: Productos -->
-    <div class="glass-panel stat-card card-blue">
-        <div class="stat-info">
-            <span class="stat-title">Total Productos</span>
-            <span class="stat-value">{{ productos_count|intcomma }}</span>
-        </div>
-        <div class="stat-icon-wrapper">
-            <i class="fa-solid fa-boxes-stacked"></i>
-        </div>
-    </div>
-
-    <!-- Card 2: Ventas Totales -->
-    <div class="glass-panel stat-card card-green">
-        <div class="stat-info">
-            <span class="stat-title">Ventas Totales</span>
-            <span class="stat-value" style="font-size: 1.85rem; font-weight: 700;">Q {{ ventas_total|floatformat:2|intcomma }}</span>
-        </div>
-        <div class="stat-icon-wrapper">
-            <i class="fa-solid fa-sack-dollar"></i>
-        </div>
-    </div>
-
-    <!-- Card 3: Órdenes Pendientes -->
-    <div class="glass-panel stat-card card-amber">
-        <div class="stat-info">
-            <span class="stat-title">Órdenes Pendientes</span>
-            <span class="stat-value">{{ ordenes_pendientes|intcomma }}</span>
-        </div>
-        <div class="stat-icon-wrapper">
-            <i class="fa-solid fa-clock-rotate-left"></i>
-        </div>
-    </div>
-
-    <!-- Card 4: Clientes Registrados -->
-    <div class="glass-panel stat-card card-purple">
-        <div class="stat-info">
-            <span class="stat-title">Clientes Registrados</span>
-            <span class="stat-value">{{ clientes_count|intcomma }}</span>
-        </div>
-        <div class="stat-icon-wrapper">
-            <i class="fa-solid fa-users-viewfinder"></i>
+    <div style="display: flex; align-items: center; gap: 12px;">
+        <div style="font-size: 0.9rem; color: var(--text-secondary); background: rgba(255,255,255,0.04); padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border-color); display: flex; align-items: center; gap: 8px; backdrop-filter: blur(10px);">
+            <i class="fa-regular fa-calendar-days" style="color: var(--accent);"></i>
+            <span id="current-date" style="font-weight: 500;">Cargando fecha...</span>
         </div>
     </div>
 </div>
 
-<!-- Accesos Rápidos (Quick Actions Widget) -->
-<div style="margin-top: 32px;">
-    <h3 style="font-size: 1.15rem; font-weight: 600; margin-bottom: 16px; color: var(--text-primary); display: flex; align-items: center; gap: 8px;">
-        <i class="fa-solid fa-bolt" style="color: var(--accent);"></i> Accesos Rápidos
-    </h3>
-    <div class="quick-actions-bar">
-        {% if request.user.is_superuser or request.user.groups.all.0.name == 'Administrador' or request.user.groups.all.0.name == 'Vendedor' %}
-        <a href="{% url 'factura_create' %}" class="quick-action-btn">
-            <i style="color: #34d399;"><i class="fa-solid fa-file-invoice-dollar"></i></i>
-            <div>
-                <div style="font-weight: 600; font-size: 0.9rem;">Nueva Factura</div>
-                <span style="font-size: 0.75rem; color: var(--text-secondary);">Registrar una venta</span>
+<!-- Contenedor del Dashboard Power BI -->
+<div class="glass-panel" style="padding: 0; overflow: hidden; border-radius: 16px; position: relative; width: 100%;">
+    <!-- Barra superior del panel -->
+    <div style="
+        padding: 14px 24px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-bottom: 1px solid var(--border-color);
+        background: rgba(255, 255, 255, 0.02);
+    ">
+        <div style="display: flex; align-items: center; gap: 10px;">
+            <div style="
+                width: 36px; height: 36px;
+                background: linear-gradient(135deg, #f2c811 0%, #e8a90e 100%);
+                border-radius: 10px;
+                display: flex; align-items: center; justify-content: center;
+                box-shadow: 0 4px 12px rgba(242, 200, 17, 0.3);
+            ">
+                <i class="fa-solid fa-chart-column" style="color: #1a1a2e; font-size: 1rem;"></i>
             </div>
-        </a>
-        {% endif %}
+            <div>
+                <h3 style="font-weight: 600; font-size: 1rem; margin: 0; color: var(--text-primary);">Dashboard Power BI</h3>
+                <span style="font-size: 0.75rem; color: var(--text-secondary);">Análisis interactivo en tiempo real</span>
+            </div>
+        </div>
+        <div style="display: flex; align-items: center; gap: 8px;">
+            <span class="powerbi-status-dot"></span>
+            <span style="font-size: 0.8rem; color: var(--text-secondary); font-weight: 500;">Conectado</span>
+        </div>
+    </div>
 
-        {% if request.user.is_superuser or request.user.groups.all.0.name == 'Administrador' or request.user.groups.all.0.name == 'Bodeguero' %}
-        <a href="{% url 'producto_create' %}" class="quick-action-btn">
-            <i style="color: #60a5fa;"><i class="fa-solid fa-box-open"></i></i>
-            <div>
-                <div style="font-weight: 600; font-size: 0.9rem;">Nuevo Producto</div>
-                <span style="font-size: 0.75rem; color: var(--text-secondary);">Agregar al catálogo</span>
-            </div>
-        </a>
-        <a href="{% url 'ordencompra_create' %}" class="quick-action-btn">
-            <i style="color: #fbbf24;"><i class="fa-solid fa-cart-plus"></i></i>
-            <div>
-                <div style="font-weight: 600; font-size: 0.9rem;">Registrar Compra</div>
-                <span style="font-size: 0.75rem; color: var(--text-secondary);">Solicitar a proveedor</span>
-            </div>
-        </a>
-        {% endif %}
+    <!-- iframe de Power BI -->
+    <div id="powerbi-container" style="
+        width: 100%;
+        height: calc(100vh - 220px);
+        min-height: 500px;
+        position: relative;
+        background: #0d1117;
+    ">
+        <!-- Loader animado mientras carga el iframe -->
+        <div id="powerbi-loader" style="
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            z-index: 5;
+            background: #0d1117;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        ">
+            <div class="powerbi-spinner"></div>
+            <span style="color: #94a3b8; font-size: 0.9rem; font-weight: 500;">Cargando dashboard...</span>
+        </div>
 
-        <a href="{% url 'cliente_create' %}" class="quick-action-btn">
-            <i style="color: #c084fc;"><i class="fa-solid fa-user-plus"></i></i>
-            <div>
-                <div style="font-weight: 600; font-size: 0.9rem;">Nuevo Cliente</div>
-                <span style="font-size: 0.75rem; color: var(--text-secondary);">Registrar en base</span>
-            </div>
-        </a>
+        <iframe
+            id="powerbi-iframe"
+            title="Dashboard Power BI - ChardonayStore"
+            src="https://app.powerbi.com/view?r=eyJrIjoiZTRkNWZhNjUtNDQwYy00NTY2LTlhMWQtMjIzNDFjZTVmNmM1IiwidCI6IjVmNTNiNGNlLTYzZDQtNGVlOC04OGQyLTIyZjBiMmQ0YjI3YSIsImMiOjR9"
+            style="
+                width: 100%;
+                height: 100%;
+                border: none;
+                display: block;
+            "
+            allowfullscreen="true"
+            frameborder="0"
+        ></iframe>
     </div>
 </div>
 
-<!-- Fila de Gráficos Interactivos -->
-<div class="dashboard-row">
-    <!-- Tendencia de Ventas -->
-    <div class="glass-panel chart-panel">
-        <div class="panel-header">
-            <h3 class="panel-title"><i class="fa-solid fa-chart-line" style="color: var(--accent);"></i> Tendencia de Ventas Mensuales</h3>
-        </div>
-        <div style="position: relative; height: 280px; width: 100%;">
-            <canvas id="salesChart"></canvas>
-        </div>
-    </div>
+<!-- Estilos específicos para el dashboard Power BI -->
+<style>
+    /* Indicador de estado "Conectado" con pulso */
+    .powerbi-status-dot {
+        width: 8px;
+        height: 8px;
+        background: #34d399;
+        border-radius: 50%;
+        display: inline-block;
+        position: relative;
+    }
+    .powerbi-status-dot::before {
+        content: '';
+        position: absolute;
+        top: -3px; left: -3px;
+        width: 14px; height: 14px;
+        border-radius: 50%;
+        background: rgba(52, 211, 153, 0.3);
+        animation: pbiPulse 2s ease-in-out infinite;
+    }
 
-    <!-- Distribución por Categorías -->
-    <div class="glass-panel chart-panel">
-        <div class="panel-header">
-            <h3 class="panel-title"><i class="fa-solid fa-chart-pie" style="color: #c084fc;"></i> Productos por Categoría</h3>
-        </div>
-        <div style="position: relative; height: 280px; width: 100%; display: flex; align-items: center; justify-content: center;">
-            <canvas id="categoryChart" style="max-height: 230px; max-width: 230px;"></canvas>
-        </div>
-    </div>
-</div>
+    @keyframes pbiPulse {
+        0%, 100% { transform: scale(1); opacity: 0.6; }
+        50% { transform: scale(1.5); opacity: 0; }
+    }
 
-<!-- Fila de Tablas y Listados Clave -->
-<div class="dashboard-row" style="margin-top: 24px; margin-bottom: 32px;">
-    <!-- Ventas Recientes -->
-    <div class="glass-panel" style="padding: 24px;">
-        <div class="panel-header" style="margin-bottom: 16px;">
-            <h3 class="panel-title"><i class="fa-solid fa-receipt" style="color: #34d399;"></i> Últimas Ventas Realizadas</h3>
-            <a href="{% url 'factura_list' %}" style="font-size: 0.85rem; color: var(--accent); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 4px;">
-                Ver todas <i class="fa-solid fa-arrow-right-long"></i>
-            </a>
-        </div>
-        <ul class="activity-list">
-            {% if ventas_recientes %}
-                {% for v in ventas_recientes %}
-                <li class="activity-item">
-                    <div class="activity-details">
-                        <div class="activity-avatar" style="background: rgba(52, 211, 153, 0.1); color: #34d399;">
-                            <i class="fa-solid fa-file-invoice"></i>
-                        </div>
-                        <div class="activity-text">
-                            <span class="activity-main" style="font-weight: 600;">{{ v.cliente.nombre }}</span>
-                            <span class="activity-sub">{{ v.fecha_venta|date:"d M Y, h:i A" }} - #{{ v.numero_factura }}</span>
-                        </div>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span class="badge {% if v.estado == 'Pagada' %}badge-success{% elif v.estado == 'Emitida' %}badge-info{% else %}badge-warning{% endif %}">{{ v.estado }}</span>
-                        <span style="font-weight: 700; color: var(--text-primary); font-size: 0.95rem;">Q {{ v.total|floatformat:2|intcomma }}</span>
-                    </div>
-                </li>
-                {% endfor %}
-            {% else %}
-                <div style="text-align: center; color: var(--text-secondary); padding: 40px 0;">
-                    <i class="fa-regular fa-folder-open" style="font-size: 2rem; opacity: 0.5; margin-bottom: 8px;"></i>
-                    <div>No hay ventas registradas recientemente.</div>
-                </div>
-            {% endif %}
-        </ul>
-    </div>
+    /* Spinner de carga */
+    .powerbi-spinner {
+        width: 44px;
+        height: 44px;
+        border: 3px solid rgba(242, 200, 17, 0.15);
+        border-top-color: #f2c811;
+        border-radius: 50%;
+        animation: pbiSpin 0.8s linear infinite;
+    }
 
-    <!-- Alertas de Stock Crítico -->
-    <div class="glass-panel" style="padding: 24px;">
-        <div class="panel-header" style="margin-bottom: 16px;">
-            <h3 class="panel-title"><i class="fa-solid fa-triangle-exclamation" style="color: #fbbf24;"></i> Alertas de Stock Bajo (< 10)</h3>
-            <a href="{% url 'producto_list' %}" style="font-size: 0.85rem; color: var(--accent); text-decoration: none; font-weight: 500; display: flex; align-items: center; gap: 4px;">
-                Inventario <i class="fa-solid fa-arrow-right-long"></i>
-            </a>
-        </div>
-        <ul class="activity-list">
-            {% if bajo_stock %}
-                {% for p in bajo_stock %}
-                <li class="activity-item">
-                    <div class="activity-details">
-                        <div class="activity-avatar" style="background: rgba(239, 68, 68, 0.1); color: #f87171;">
-                            <i class="fa-solid fa-cubes"></i>
-                        </div>
-                        <div class="activity-text">
-                            <span class="activity-main" style="max-width: 170px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; font-weight: 600;">{{ p.nombre }}</span>
-                            <span class="activity-sub">SKU: {{ p.sku }} - {{ p.categoria.nombre }}</span>
-                        </div>
-                    </div>
-                    <div style="display: flex; align-items: center; gap: 12px;">
-                        <span class="badge badge-danger" style="padding: 4px 10px; font-size: 0.7rem; border-radius: 8px;">{{ p.stock }} uni</span>
-                        {% if request.user.is_superuser or request.user.groups.all.0.name == 'Administrador' or request.user.groups.all.0.name == 'Bodeguero' %}
-                        <a href="{% url 'ordencompra_create' %}?producto={{ p.id }}&proveedor={{ p.proveedor_predeterminado.id }}" class="btn btn-primary" style="padding: 6px 12px; font-size: 0.75rem; border-radius: 6px;">
-                            <i class="fa-solid fa-cart-plus"></i> Pedir
-                        </a>
-                        {% endif %}
-                    </div>
-                </li>
-                {% endfor %}
-            {% else %}
-                <div style="text-align: center; color: var(--success); padding: 40px 0;">
-                    <i class="fa-regular fa-circle-check" style="font-size: 2.25rem; margin-bottom: 8px; opacity: 0.75;"></i>
-                    <div style="font-weight: 500;">¡Todo en orden!</div>
-                    <div style="font-size: 0.8rem; color: var(--text-secondary); margin-top: 4px;">El stock de todos los productos está saludable.</div>
-                </div>
-            {% endif %}
-        </ul>
-    </div>
-</div>
+    @keyframes pbiSpin {
+        to { transform: rotate(360deg); }
+    }
 
-<!-- Scripts de Inicialización de Fecha, Saludo y Gráficos -->
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    /* Responsividad del iframe container */
+    @media (max-width: 768px) {
+        #powerbi-container {
+            height: calc(100vh - 200px) !important;
+            min-height: 400px !important;
+        }
+    }
+
+    @media (max-width: 480px) {
+        #powerbi-container {
+            height: calc(100vh - 180px) !important;
+            min-height: 350px !important;
+        }
+    }
+</style>
+
+<!-- Scripts -->
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         // 1. Saludo dinámico según la hora del día
         const now = new Date();
         const hours = now.getHours();
         let greeting = "¡Hola!";
-        
+
         if (hours >= 5 && hours < 12) {
             greeting = "¡Buenos días, {{ request.user.username }}! ☀️";
         } else if (hours >= 12 && hours < 19) {
@@ -226,166 +162,28 @@
             greeting = "¡Buenas noches, {{ request.user.username }}! 🌙";
         }
         document.getElementById('dynamic-greeting').textContent = greeting;
-        
-        // 2. Fecha actual con formato largo
+
+        // 2. Fecha actual con formato largo en español
         const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
         let formattedDate = now.toLocaleDateString('es-ES', dateOptions);
-        // Capitalizar primer carácter de la fecha
         formattedDate = formattedDate.charAt(0).toUpperCase() + formattedDate.slice(1);
         document.getElementById('current-date').textContent = formattedDate;
 
-        // 3. Gráfico de Tendencia de Ventas (Line Chart)
-        const salesCtx = document.getElementById('salesChart').getContext('2d');
-        
-        // Pasamos datos dinámicos inyectados por Django context
-        const salesLabels = {{ chart_sales_labels|safe }};
-        const salesData = {{ chart_sales_values|safe }};
-        
-        const finalSalesLabels = salesLabels.length > 0 ? salesLabels : ['Ene', 'Feb', 'Mar', 'Abr', 'May'];
-        const finalSalesData = salesData.length > 0 ? salesData : [0, 0, 0, 0, 0];
+        // 3. Ocultar loader cuando el iframe haya cargado
+        const iframe = document.getElementById('powerbi-iframe');
+        const loader = document.getElementById('powerbi-loader');
 
-        // Crear gradiente de relleno para la curva de la línea
-        const purpleGradient = salesCtx.createLinearGradient(0, 0, 0, 250);
-        purpleGradient.addColorStop(0, 'rgba(99, 102, 241, 0.35)');
-        purpleGradient.addColorStop(1, 'rgba(99, 102, 241, 0.0)');
-
-        new Chart(salesCtx, {
-            type: 'line',
-            data: {
-                labels: finalSalesLabels,
-                datasets: [{
-                    label: 'Ventas en Q',
-                    data: finalSalesData,
-                    borderColor: '#6366f1',
-                    borderWidth: 3,
-                    backgroundColor: purpleGradient,
-                    fill: true,
-                    tension: 0.4,
-                    pointBackgroundColor: '#818cf8',
-                    pointBorderColor: '#ffffff',
-                    pointBorderWidth: 2,
-                    pointRadius: 5,
-                    pointHoverRadius: 7,
-                    pointHoverBackgroundColor: '#6366f1'
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-                        titleColor: '#f8fafc',
-                        bodyColor: '#f8fafc',
-                        borderColor: 'rgba(255, 255, 255, 0.1)',
-                        borderWidth: 1,
-                        padding: 12,
-                        cornerRadius: 8,
-                        displayColors: false,
-                        callbacks: {
-                            label: function(context) {
-                                return 'Total: Q ' + context.raw.toLocaleString('es-GT', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
-                            }
-                        }
-                    }
-                },
-                scales: {
-                    x: {
-                        grid: {
-                            display: false
-                        },
-                        ticks: {
-                            color: '#94a3b8',
-                            font: {
-                                family: "'Inter', sans-serif",
-                                size: 11,
-                                weight: '500'
-                            }
-                        }
-                    },
-                    y: {
-                        grid: {
-                            color: 'rgba(255, 255, 255, 0.05)'
-                        },
-                        ticks: {
-                            color: '#94a3b8',
-                            font: {
-                                family: "'Inter', sans-serif",
-                                size: 11
-                            },
-                            callback: function(value) {
-                                return 'Q ' + (value >= 1000000 ? (value/1000000).toFixed(1) + 'M' : value >= 1000 ? (value/1000).toFixed(0) + 'k' : value);
-                            }
-                        }
-                    }
-                }
-            }
+        iframe.addEventListener('load', function() {
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
         });
 
-        // 4. Gráfico de Categorías (Doughnut Chart)
-        const catCtx = document.getElementById('categoryChart').getContext('2d');
-        const catLabels = {{ chart_cat_labels|safe }};
-        const catData = {{ chart_cat_values|safe }};
-
-        const finalCatLabels = catLabels.length > 0 ? catLabels : ['Sin categorías'];
-        const finalCatData = catData.length > 0 ? catData : [1];
-
-        new Chart(catCtx, {
-            type: 'doughnut',
-            data: {
-                labels: finalCatLabels,
-                datasets: [{
-                    data: finalCatData,
-                    backgroundColor: [
-                        'rgba(99, 102, 241, 0.85)',  // Indigo
-                        'rgba(52, 211, 153, 0.85)',  // Emerald
-                        'rgba(192, 132, 252, 0.85)', // Purple
-                        'rgba(251, 191, 36, 0.85)',  // Amber
-                        'rgba(96, 165, 250, 0.85)'   // Blue
-                    ],
-                    borderColor: '#1e293b',
-                    borderWidth: 2.5,
-                    hoverOffset: 6
-                }]
-            },
-            options: {
-                responsive: true,
-                maintainAspectRatio: false,
-                plugins: {
-                    legend: {
-                        position: 'bottom',
-                        labels: {
-                            color: '#94a3b8',
-                            padding: 16,
-                            font: {
-                                family: "'Inter', sans-serif",
-                                size: 11,
-                                weight: '500'
-                            }
-                        }
-                    },
-                    tooltip: {
-                        backgroundColor: 'rgba(15, 23, 42, 0.95)',
-                        padding: 10,
-                        cornerRadius: 8,
-                        borderColor: 'rgba(255, 255, 255, 0.1)',
-                        borderWidth: 1,
-                        callbacks: {
-                            label: function(context) {
-                                const value = context.raw;
-                                const total = context.dataset.data.reduce((a, b) => a + b, 0);
-                                const percentage = total > 0 ? ((value / total) * 100).toFixed(0) : 0;
-                                return ` ${context.label}: ${value} productos (${percentage}%)`;
-                            }
-                        }
-                    }
-                },
-                cutout: '70%'
-            }
-        });
+        // Timeout de seguridad: ocultar loader después de 8 segundos
+        // por si el evento 'load' no se dispara correctamente
+        setTimeout(function() {
+            loader.style.opacity = '0';
+            loader.style.visibility = 'hidden';
+        }, 8000);
     });
 </script>
 {% endblock %}

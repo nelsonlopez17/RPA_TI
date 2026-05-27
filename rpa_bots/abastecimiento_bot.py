@@ -1,3 +1,10 @@
+"""
+BOT DE ABASTECIMIENTO M2M (Machine-to-Machine)
+
+Este bot monitorea alertas críticas del ERP (bajo stock no leído).
+Se conecta al módulo de Compras vía API para crear automáticamente una
+nueva Orden de Compra y resolver el problema de inventario sin intervención humana.
+"""
 import sys
 try:
     import requests

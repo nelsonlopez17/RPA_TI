@@ -1,57 +1,59 @@
 from django.views.generic import TemplateView
 from django.contrib.auth.mixins import LoginRequiredMixin
-from inventario.models import Producto
-from ventas.models import Cliente, Factura
-from compras.models import OrdenCompra
-from django.db.models import Sum, Count
-from django.db.models.functions import TruncMonth
+
+# ============================================================================
+# HomeView - Dashboard Power BI (embebido via iframe)
+# El dashboard anterior con Chart.js fue respaldado en templates/home_backup.html
+# Para restaurarlo: renombrar home_backup.html → home.html y descomentar el
+# get_context_data original en esta vista.
+# ============================================================================
 
 class HomeView(LoginRequiredMixin, TemplateView):
     template_name = 'home.html'
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context['productos_count'] = Producto.objects.count()
-        context['clientes_count'] = Cliente.objects.count()
-        context['ordenes_pendientes'] = OrdenCompra.objects.filter(estado='Pendiente').count()
-        
-        # Total de ventas general
-        total = Factura.objects.aggregate(Sum('total'))['total__sum']
-        context['ventas_total'] = total if total else 0.0
-        
-        # Ventas recientes (últimas 5 facturas)
-        context['ventas_recientes'] = Factura.objects.select_related('cliente').order_by('-fecha_venta')[:5]
-        
-        # Alertas de bajo stock (menos de 10 unidades)
-        context['bajo_stock'] = Producto.objects.filter(stock__lt=10).select_related('categoria').order_by('stock')[:5]
-        
-        # Ventas mensuales agrupadas para el gráfico
-        ventas_mensuales = Factura.objects.annotate(
-            month=TruncMonth('fecha_venta')
-        ).values('month').annotate(total=Sum('total')).order_by('month')
-        
-        meses_nombres = {
-            1: 'Ene', 2: 'Feb', 3: 'Mar', 4: 'Abr', 5: 'May', 6: 'Jun',
-            7: 'Jul', 8: 'Ago', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dic'
-        }
-        
-        chart_sales_labels = []
-        chart_sales_values = []
-        for vm in ventas_mensuales:
-            if vm['month']:
-                month_num = vm['month'].month
-                chart_sales_labels.append(meses_nombres.get(month_num, str(month_num)))
-                chart_sales_values.append(float(vm['total']))
-        
-        context['chart_sales_labels'] = chart_sales_labels
-        context['chart_sales_values'] = chart_sales_values
-        
-        # Conteo de productos por categoría
-        cats = Categoria.objects.annotate(num_productos=Count('producto')).values('nombre', 'num_productos')
-        context['chart_cat_labels'] = [c['nombre'] for c in cats]
-        context['chart_cat_values'] = [c['num_productos'] for c in cats]
-        
-        return context
+    # El dashboard Power BI no requiere datos de contexto del servidor.
+    # Todo se renderiza dentro del iframe directamente desde Power BI.
+    #
+    # --- CÓDIGO ORIGINAL (respaldo) ---
+    # Si necesitas restaurar el dashboard anterior, descomenta lo siguiente
+    # y cambia el template a 'home_backup.html':
+    #
+    # from inventario.models import Producto
+    # from ventas.models import Cliente, Factura
+    # from compras.models import OrdenCompra
+    # from django.db.models import Sum, Count
+    # from django.db.models.functions import TruncMonth
+    #
+    # def get_context_data(self, **kwargs):
+    #     context = super().get_context_data(**kwargs)
+    #     context['productos_count'] = Producto.objects.count()
+    #     context['clientes_count'] = Cliente.objects.count()
+    #     context['ordenes_pendientes'] = OrdenCompra.objects.filter(estado='Pendiente').count()
+    #     total = Factura.objects.aggregate(Sum('total'))['total__sum']
+    #     context['ventas_total'] = total if total else 0.0
+    #     context['ventas_recientes'] = Factura.objects.select_related('cliente').order_by('-fecha_venta')[:5]
+    #     context['bajo_stock'] = Producto.objects.filter(stock__lt=10).select_related('categoria').order_by('stock')[:5]
+    #     ventas_mensuales = Factura.objects.annotate(
+    #         month=TruncMonth('fecha_venta')
+    #     ).values('month').annotate(total=Sum('total')).order_by('month')
+    #     meses_nombres = {
+    #         1: 'Ene', 2: 'Feb', 3: 'Mar', 4: 'Abr', 5: 'May', 6: 'Jun',
+    #         7: 'Jul', 8: 'Ago', 9: 'Sep', 10: 'Oct', 11: 'Nov', 12: 'Dic'
+    #     }
+    #     chart_sales_labels = []
+    #     chart_sales_values = []
+    #     for vm in ventas_mensuales:
+    #         if vm['month']:
+    #             month_num = vm['month'].month
+    #             chart_sales_labels.append(meses_nombres.get(month_num, str(month_num)))
+    #             chart_sales_values.append(float(vm['total']))
+    #     context['chart_sales_labels'] = chart_sales_labels
+    #     context['chart_sales_values'] = chart_sales_values
+    #     from inventario.models import Categoria
+    #     cats = Categoria.objects.annotate(num_productos=Count('producto')).values('nombre', 'num_productos')
+    #     context['chart_cat_labels'] = [c['nombre'] for c in cats]
+    #     context['chart_cat_values'] = [c['num_productos'] for c in cats]
+    #     return context
 
 import csv
 import io
